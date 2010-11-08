@@ -1,0 +1,16 @@
+= Formula
+
+Formula is a Rails form generator that generates simple clean markup. The project aims to let users create semantically beautiful forms without introducing too much syntax. The goal is to make integrating advanced layout systems (such as grid systems) as simple as possible.
+
+== Installation
+
+  gem install formula
+  
+== Examples
+
+  <%= f.input :email %>
+  <%= f.input :password %>
+
+== Copyright
+
+Copyright (c) 2010 Kevin Sylvestre. See LICENSE for details.
