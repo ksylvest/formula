@@ -11,6 +11,17 @@ Formula is a Rails form generator that generates simple clean markup. The projec
   <%= f.input :email %>
   <%= f.input :password %>
 
+  <%= f.input :email, :label => "Email:", :hint => "We promise never to bother you." %>
+  <%= f.input :password, :label => "Password:", :hint => "Must be at least six characters." %>
+  
+  <%= f.input :url, :class => 'grid-04' %>
+  <%= f.input :phone, :class => 'grid-04' %>
+  <%= f.input :email, :class => 'grid-04' %>
+  
+  <%= f.input :credit_card_number, :label => 'Number:', :class => 'grid-08' %>
+  <%= f.input :credit_card_verification, :label => 'CVV:', :class => 'grid-02' %>
+  <%= f.input :credit_card_expiration, :label => 'Expiration:', :class => 'grid-02' %>
+
 == Copyright
 
 Copyright (c) 2010 Kevin Sylvestre. See LICENSE for details.
