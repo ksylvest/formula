@@ -6,6 +6,10 @@ module Formula
   mattr_accessor :input_class
   @@input_class = 'input'
   
+  # Default class assigned to input (<div class="association">...</div>).
+  mattr_accessor :association_class
+  @@association_class = 'association'
+  
   # Default class assigned to error (<div class="error">...</div>).
   mattr_accessor :error_class
   @@error_class = 'error'
@@ -17,6 +21,10 @@ module Formula
   # Default tag assigned to input (<div class="input">...</div>).
   mattr_accessor :input_tag
   @@input_tag = :div
+  
+  # Default tag assigned to input (<div class="association">...</div>).
+   mattr_accessor :association_tag
+   @@association_tag = :div
   
   # Default tag assigned to error (<div class="error">...</div>).
   mattr_accessor :error_tag
@@ -41,21 +49,64 @@ module Formula
   class FormulaFormBuilder < ActionView::Helpers::FormBuilder
     
     
+    # Basic container generator for use with blocks.
+    #
+    # Options: 
+    #
+    # * :hint       - specify a hint to be displayed ('We promise not to spam you.', etc.)
+    # * :label      - override the default label used ('Name:', 'URL:', etc.)
+    # * :error      - override the default error used ('invalid', 'incorrect', etc.)
+    #
+    # Usage:
+    #
+    #   f.block(:name, :label => "Name:", :hint => "Please use your full name.", :container => { :class => 'fill' }) do
+    #     ...
+    #   end
+    #
+    # Equivalent:
+    #
+    #   <div class='fill'>
+    #     <%= f.label(:name, "Name:") %>
+    #     ...
+    #     <div class="hint">Please use your full name.</div>
+    #     <div class="error"></div>
+    #   </div>
+    
+    def block(method, options = {}, &block)
+      options[:error] ||= error(method)
+            
+      components = []
+      
+      components << self.label(method, options[:label])
+      
+      components << @template.capture(&block)
+      
+      components << @template.content_tag(::Formula.hint_tag, options[:hint], :class => ::Formula.hint_class) if options[:hint]
+      components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
+      
+      @template.content_tag(:div, options[:container]) do
+        components.join
+      end
+    end
+    
+    
     # Generate a suitable form input for a given method by performing introspection on the type. 
     #
     # Options: 
     #
-    # * :as    - override the default type used (:url, :email, :phone, :password, :number, :text)
-    # * :label - override the default label used ('Name:', 'URL:', etc.)
-    # * :error - override the default error used ('invalid', 'incorrect', etc.)
-    # * :class - add custom classes to the container ('grid-04', 'grid-08', etc.)
+    # * :as         - override the default type used (:url, :email, :phone, :password, :number, :text)
+    # * :label      - override the default label used ('Name:', 'URL:', etc.)
+    # * :error      - override the default error used ('invalid', 'incorrect', etc.)
+    # * :input      - add custom options to the input ({ :class => 'goregous' }, etc.)
+    # * :container  - add custom options to the container ({ :class => 'gorgeous' }, etc.)
+    # * :collection - 
     #
     # Usage:
     #
     #   f.input(:name)
     #   f.input(:email)
-    #   f.input(:password_a, :label => "Password", :hint => "It's a secret!", :class => "half")
-    #   f.input(:password_b, :label => "Password", :hint => "It's a secret!", :class => "half")
+    #   f.input(:password_a, :label => "Password", :hint => "It's a secret!", :container => { :class => "half" })
+    #   f.input(:password_b, :label => "Password", :hint => "It's a secret!", :container => { :class => "half" })
     #
     # Equivalent:
     #
@@ -87,32 +138,23 @@ module Formula
     #   </div>
     
     def input(method, options = {})
-      options[:as]    ||= as(method)
-      options[:error] ||= error(method)
+      options[:as] ||= as(method)
+      
+      self.block(method, options) do
+        case options[:as]
+          when :text     then text_area(method)
+          
+          when :string   then text_field(method)
+          when :password then password_field(method)
             
-      components = []
-      
-      components << self.label(method, options[:label])
-      
-      case options[:as]
-        when :text     then components << self.text_area(method)
-        when :string   then components << self.text_field(method)
-        when :password then components << self.password_field(method)
-        when :url      then components << self.url_field(method)
-        when :email    then components << self.email_field(method)
-        when :phone    then components << self.phone_field(method)
-        when :number   then components << self.number_field(method)
-        when :date     then components << self.date_select(method)
-        when :time     then components << self.time_select(method)
-        when :datetime then components << self.datetime_select(method)
-      end
-      
-      components << @template.content_tag(::Formula.hint_tag, options[:hint], :class => ::Formula.hint_class) if options[:hint]
-      components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
-      
-      @template.content_tag(:div, :class => options[:class]) do
-        @template.content_tag(::Formula.input_tag, :class => ::Formula.input_class) do
-          components.join
+          when :url      then url_field(method)
+          when :email    then email_field(method)
+          when :phone    then phone_field(method)
+          when :number   then number_field(method)
+            
+          when :date     then date_select(method)
+          when :time     then time_select(method)
+          when :datetime then datetime_select(method)
         end
       end
     end
@@ -128,6 +170,8 @@ module Formula
     # * :class - add custom classes to the container ('grid-04', 'grid-08', etc.)
     
     def association(method, options = {}, &block)
+      self.block(method, options) do
+      end
     end
     
     
