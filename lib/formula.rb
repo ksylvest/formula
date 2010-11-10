@@ -246,12 +246,13 @@ module Formula
     #     <%= f.input :password %>
     #   <% end %>
     
-    alias :formula_for :formula_form_for
     def formula_form_for(record_or_name_or_array, *args, &proc)
        options = args.extract_options!
        options[:builder] ||= @@builder
        form_for(record_or_name_or_array, *(args << options), &proc)
     end
+    
+    alias :formula_for :formula_form_for
     
     
     # Generates a wrapper around fields_form with :builder set to FormulaFormBuilder.
@@ -272,12 +273,13 @@ module Formula
     #     <%= company_f.input :phone %>
     #   <% end %>
     
-    alias :fieldsula_for :formula_fields_for 
     def formula_fields_for(record_or_name_or_array, *args, &block)
       options = args.extract_options!
       options[:builder] ||= @@builder
       fields_for(record_or_name_or_array, *(args << options), &block)
     end
+    
+    alias :fieldsula_for :formula_fields_for 
     
   end
   
