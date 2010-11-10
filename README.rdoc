@@ -8,19 +8,31 @@ Formula is a Rails form generator that generates simple clean markup. The projec
   
 == Examples
 
-  <%= f.input :email %>
-  <%= f.input :password %>
+  <% formula_form_for @user do |f| %>
+    <%= f.input :email %>
+    <%= f.input :password %>
+  <% end %>
 
-  <%= f.input :email, :label => "Email:", :hint => "We promise never to bother you." %>
-  <%= f.input :password, :label => "Password:", :hint => "Must be at least six characters." %>
+  <% formula_form_for @user do |f| %>
+    <%= f.input :email, :label => "Email:", :hint => "We promise never to bother you." %>
+    <%= f.input :password, :label => "Password:", :hint => "Must be at least six characters." %>
+  <% end %>
   
-  <%= f.input :url, :class => 'grid-04' %>
-  <%= f.input :phone, :class => 'grid-04' %>
-  <%= f.input :email, :class => 'grid-04' %>
+  <% formula_form_for @company do |f|
+    <%= f.input :url, :class => 'grid-04' %>
+    <%= f.input :phone, :class => 'grid-04' %>
+    <%= f.input :email, :class => 'grid-04' %>
+  <% end %>
   
-  <%= f.input :credit_card_number, :label => 'Number:', :class => 'grid-08' %>
-  <%= f.input :credit_card_verification, :label => 'CVV:', :class => 'grid-02' %>
-  <%= f.input :credit_card_expiration, :label => 'Expiration:', :class => 'grid-02' %>
+  <% formula_form_for @user do |f| %>
+    <%= f.input :email, :label => "Email:", :class => 'grid-06 %>
+    <%= f.input :password, :label => "Password:", :class => 'grid-06' %>
+    <% formula_fields_for @user.payment do |payment_f| %>
+      <%= f.input :credit_card_number, :label => 'Number:', :class => 'grid-08' %>
+      <%= f.input :credit_card_verification, :label => 'CVV:', :class => 'grid-02' %>
+      <%= f.input :credit_card_expiration, :label => 'Expiration:', :class => 'grid-02' %>
+    <% end %>
+  <% end %>
 
 == Copyright
 

@@ -187,7 +187,7 @@ module Formula
     end
     
     alias :formula_for :formula_form_for
-    alias :fieldula_for :formula_fields_for
+    alias :fieldsula_for :formula_fields_for
   end
   
 end
