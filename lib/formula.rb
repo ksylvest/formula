@@ -49,10 +49,46 @@ module Formula
     # * :label - override the default label used ('Name:', 'URL:', etc.)
     # * :error - override the default error used ('invalid', 'incorrect', etc.)
     # * :class - add custom classes to the container ('grid-04', 'grid-08', etc.)
+    #
+    # Usage:
+    #
+    #   f.input(:name)
+    #   f.input(:email)
+    #   f.input(:password_a, :label => "Password", :hint => "It's a secret!", :class => "half")
+    #   f.input(:password_b, :label => "Password", :hint => "It's a secret!", :class => "half")
+    #
+    # Equivalent:
+    #
+    #   <div>
+    #     <div class="input">
+    #       <%= f.label(:name)
+    #       <%= f.text_field(:name)
+    #     </div>
+    #   </div>
+    #   <div>
+    #     <div class="input">
+    #       <%= f.label(:email)
+    #       <%= f.email_field(:email)
+    #     </div>
+    #   </div>
+    #   <div class="half">
+    #     <div class="input">
+    #       <%= f.label(:password_a, "Password")
+    #       <%= f.password_field(:password_a)
+    #       <div class="hint">It's a secret!</div>
+    #     </div>
+    #   </div>
+    #   <div class="half">
+    #     <div class="input">
+    #       <%= f.label(:password_b, "Password")
+    #       <%= f.password_field(:password_b)
+    #       <div class="hint">It's a secret!</div>
+    #     </div>
+    #   </div>
     
     def input(method, options = {})
-      options[:as]    ||= as(method, options)
-      options[:error] ||= error(method, options)
+      options[:as]    ||= as(method)
+      options[:error] ||= error(method)
             
       components = []
       
@@ -96,7 +132,22 @@ module Formula
     
     
   private
-  
+    
+    
+    # Introspection on the column to determine how to render a method. The method is used to 
+    # identify a method type (if the method corresponds to a column)
+    #
+    # Returns:
+    #
+    # * :text     - for columns of type 'text'
+    # * :string   - for columns of type 'string'
+    # * :integer  - for columns of type 'integer'
+    # * :float    - for columns of type 'float'
+    # * :decimal  - for columns of type 'decimal'
+    # * :datetime - for columns of type 'datetime'
+    # * :date     - for columns of type 'date'
+    # * :time     - for columns of type 'time'
+    # * nil       - for unkown columns
   
     def type(method)
       column = @object.column_for_attribute(method) if @object.respond_to?(:column_for_attribute)
@@ -113,11 +164,14 @@ module Formula
     # * :email    - for columns containing 'email'
     # * :phone    - for columns containing 'phone'
     # * :password - for columns containing 'password'
-    # * :number   - for integer, float, or decimal columns
-    
+    # * :number   - for integer, float or decimal columns
+    # * :datetime - for datetime or timestamp columns
+    # * :date     - for date column
+    # * :time     - for time column
+    # * :text     - for time column
     # * :string   - for all other cases
     
-    def as(method, options = {})
+    def as(method)
       type = type(method)
       
       if type == :string or type == nil
@@ -157,7 +211,7 @@ module Formula
     # * :number   - for integer, float, or decimal columns
     # * :text     - for all other cases
     
-    def error(method, options = {})
+    def error(method)
       @object.errors[method].to_sentence
     end
     
@@ -174,20 +228,57 @@ module Formula
   module FormulaFormHelper
     @@builder = ::Formula::FormulaFormBuilder
     
+    
+    # Generates a wrapper around form_for with :builder set to FormulaFormBuilder.
+    #
+    # Supports:
+    #
+    # * formula_form_for(@user)
+    #
+    # Equivalent:
+    #
+    # * form_for(@user, :builder => Formula::FormulaFormBuilder))
+    #
+    # Usage:
+    #
+    #   <% formula_form_for(@user) do |f| %>
+    #     <%= f.input :email %>
+    #     <%= f.input :password %>
+    #   <% end %>
+    
+    alias :formula_for :formula_form_for
     def formula_form_for(record_or_name_or_array, *args, &proc)
        options = args.extract_options!
        options[:builder] ||= @@builder
        form_for(record_or_name_or_array, *(args << options), &proc)
     end
-     
+    
+    
+    # Generates a wrapper around fields_form with :builder set to FormulaFormBuilder.
+    #
+    # Supports:
+    #
+    # * f.formula_fields_for(@user.company)
+    # * f.fieldsula_for(@user.company)
+    #
+    # Equivalent:
+    #
+    # * f.fields_for(@user.company, :builder => Formula::FormulaFormBuilder))
+    #
+    # Usage:
+    #
+    #   <% f.formula_form_for(@user.company) do |company_f| %>
+    #     <%= company_f.input :url %>
+    #     <%= company_f.input :phone %>
+    #   <% end %>
+    
+    alias :fieldsula_for :formula_fields_for 
     def formula_fields_for(record_or_name_or_array, *args, &block)
       options = args.extract_options!
       options[:builder] ||= @@builder
       fields_for(record_or_name_or_array, *(args << options), &block)
     end
     
-    alias :formula_for :formula_form_for
-    alias :fieldsula_for :formula_fields_for
   end
   
 end
