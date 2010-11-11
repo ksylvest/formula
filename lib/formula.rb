@@ -79,7 +79,7 @@ module Formula
       
       components << self.label(method, options[:label])
       
-      components << @template.capture(&block)
+      components << @template.content_tag(::Formula.input_tag, @template.capture(&block), :class => ::Formula.input_class)
       
       components << @template.content_tag(::Formula.hint_tag, options[:hint], :class => ::Formula.hint_class) if options[:hint]
       components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
@@ -142,19 +142,19 @@ module Formula
       
       self.block(method, options) do
         case options[:as]
-          when :text     then text_area(method)
+          when :text     then text_area(method, options[:input] || {})
           
-          when :string   then text_field(method)
-          when :password then password_field(method)
+          when :string   then text_field(method, options[:input] || {})
+          when :password then password_field(method, options[:input] || {})
             
-          when :url      then url_field(method)
-          when :email    then email_field(method)
-          when :phone    then phone_field(method)
-          when :number   then number_field(method)
+          when :url      then url_field(method, options[:input] || {})
+          when :email    then email_field(method, options[:input] || {})
+          when :phone    then phone_field(method, options[:input] || {})
+          when :number   then number_field(method, options[:input] || {})
             
-          when :date     then date_select(method)
-          when :time     then time_select(method)
-          when :datetime then datetime_select(method)
+          when :date     then date_select(method, options[:input] || {})
+          when :time     then time_select(method, options[:input] || {})
+          when :datetime then datetime_select(method, options[:input] || {})
         end
       end
     end
