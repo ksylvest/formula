@@ -1,12 +1,18 @@
 module Formula
   
+  
   require 'formula/railtie' if defined?(Rails)
+  
+  
+  # Default class assigned to block (<div class="block">...</div>).
+  mattr_accessor :block_class
+  @@block_class = 'block'
   
   # Default class assigned to input (<div class="input">...</div>).
   mattr_accessor :input_class
   @@input_class = 'input'
   
-  # Default class assigned to input (<div class="association">...</div>).
+  # Default class assigned to association (<div class="association">...</div>).
   mattr_accessor :association_class
   @@association_class = 'association'
   
@@ -18,11 +24,15 @@ module Formula
   mattr_accessor :hint_class
   @@hint_class = 'hint'
   
+  # Default tag assigned to block (<div class="input">...</div>).
+  mattr_accessor :block_tag
+  @@block_tag = :div
+  
   # Default tag assigned to input (<div class="input">...</div>).
   mattr_accessor :input_tag
   @@input_tag = :div
   
-  # Default tag assigned to input (<div class="association">...</div>).
+  # Default tag assigned to association (<div class="association">...</div>).
    mattr_accessor :association_tag
    @@association_tag = :div
   
@@ -34,17 +44,6 @@ module Formula
   mattr_accessor :hint_tag
   @@hint_tag = :div
   
-  # Default size used on inputs (<input ... size="50" />).
-  mattr_accessor :default_input_size
-  @@default_input_size = 50
-  
-  # Default cols used on textarea (<textarea ... cols="50" />).
-  mattr_accessor :default_textarea_cols
-  @@default_textarea_cols = 50
-  
-  # Default cols used on textarea (<textarea ... rows="5" />).
-  mattr_accessor :default_textarea_rows
-  @@default_textarea_rows = 5
   
   class FormulaFormBuilder < ActionView::Helpers::FormBuilder
     
@@ -79,12 +78,12 @@ module Formula
       
       components << self.label(method, options[:label])
       
-      components << @template.content_tag(::Formula.input_tag, @template.capture(&block), :class => ::Formula.input_class)
+      components << @template.capture(&block)
       
       components << @template.content_tag(::Formula.hint_tag, options[:hint], :class => ::Formula.hint_class) if options[:hint]
       components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
       
-      @template.content_tag(:div, options[:container]) do
+      @template.content_tag(::Formula.block_tag, options[:container]) do
         components.join
       end
     end
@@ -109,26 +108,23 @@ module Formula
     #
     # Equivalent:
     #
-    #   <div>
-    #     <div class="input">
-    #       <%= f.label(:name)
-    #       <%= f.text_field(:name)
+    #   <div class="block">
+    #     <%= f.label(:name)
+    #     <div class="input string"><%= f.text_field(:name)</div>
+    #   </div>
+    #   <div class="block">
+    #     <%= f.label(:email)
+    #     <div class="input string"><%= f.email_field(:email)</div>
     #     </div>
     #   </div>
-    #   <div>
-    #     <div class="input">
-    #       <%= f.label(:email)
-    #       <%= f.email_field(:email)
-    #     </div>
-    #   </div>
-    #   <div class="half">
+    #   <div class="block half">
     #     <div class="input">
     #       <%= f.label(:password_a, "Password")
     #       <%= f.password_field(:password_a)
     #       <div class="hint">It's a secret!</div>
     #     </div>
     #   </div>
-    #   <div class="half">
+    #   <div class="block half">
     #     <div class="input">
     #       <%= f.label(:password_b, "Password")
     #       <%= f.password_field(:password_b)
@@ -138,22 +134,25 @@ module Formula
     
     def input(method, options = {})
       options[:as] ||= as(method)
+      options[:input] ||= {}
       
       self.block(method, options) do
-        case options[:as]
-          when :text     then text_area(method, options[:input] || {})
+        @template.content_tag(::Formula.input_tag, :class => [::Formula.input_class, options[:as]]) do
+          case options[:as]
+            when :text     then text_area(method, options[:input])
           
-          when :string   then text_field(method, options[:input] || {})
-          when :password then password_field(method, options[:input] || {})
+            when :string   then text_field(method, options[:input])
+            when :password then password_field(method, options[:input])
             
-          when :url      then url_field(method, options[:input] || {})
-          when :email    then email_field(method, options[:input] || {})
-          when :phone    then phone_field(method, options[:input] || {})
-          when :number   then number_field(method, options[:input] || {})
+            when :url      then url_field(method, options[:input])
+            when :email    then email_field(method, options[:input])
+            when :phone    then phone_field(method, options[:input])
+            when :number   then number_field(method, options[:input])
             
-          when :date     then date_select(method, options[:input] || {})
-          when :time     then time_select(method, options[:input] || {})
-          when :datetime then datetime_select(method, options[:input] || {})
+            when :date     then date_select(method, options[:input])
+            when :time     then time_select(method, options[:input])
+            when :datetime then datetime_select(method, options[:input])
+          end
         end
       end
     end
@@ -177,14 +176,21 @@ module Formula
     #   <div>
     #     <div class="association">
     #       <%= f.label(:category_id)
-    #       <%= f.collection_select(:category_id, Category.all, :id, :name)
+    #       <div class="association"><%= f.collection_select(:category_id, Category.all, :id, :name) %></div>
     #       <div class="hint">What do you do?</div>
     #     </div>
     #   </div>
     
     def association(method, collection, value, text, options = {})
+      options[:as] ||= :select
+      options[:association] ||= {}
+      
       self.block(method, options) do
-        collection_select(method, collection, value, text)
+        @template.content_tag(::Formula.association_tag, :class => [::Formula.association_class, options[:as]]) do
+          case options[:as]
+            when :select then collection_select(method, collection, value, text, options[:association])
+          end
+        end
       end
     end
     
