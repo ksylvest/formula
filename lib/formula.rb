@@ -99,7 +99,6 @@ module Formula
     # * :error      - override the default error used ('invalid', 'incorrect', etc.)
     # * :input      - add custom options to the input ({ :class => 'goregous' }, etc.)
     # * :container  - add custom options to the container ({ :class => 'gorgeous' }, etc.)
-    # * :collection - 
     #
     # Usage:
     #
@@ -164,13 +163,28 @@ module Formula
     #
     # Options: 
     #
-    # * :as    - override the default type used (:url, :email, :phone, :password, :number, :text)
-    # * :label - override the default label used ('Name:', 'URL:', etc.)
-    # * :error - override the default error used ('invalid', 'incorrect', etc.)
-    # * :class - add custom classes to the container ('grid-04', 'grid-08', etc.)
+    # * :label       - override the default label used ('Name:', 'URL:', etc.)
+    # * :error       - override the default error used ('invalid', 'incorrect', etc.)
+    # * :association - add custom options to the input ({ :class => 'goregous' }, etc.)
+    # * :container   - add custom options to the container ({ :class => 'gorgeous' }, etc.)
+    #
+    # Usage:
+    #
+    #   f.association(:category_id, Category.all, :id, :name, :hint => "What do you do?")
+    #
+    # Equivalent:
+    #
+    #   <div>
+    #     <div class="association">
+    #       <%= f.label(:category_id)
+    #       <%= f.collection_select(:category_id, Category.all, :id, :name)
+    #       <div class="hint">What do you do?</div>
+    #     </div>
+    #   </div>
     
-    def association(method, options = {}, &block)
+    def association(method, collection, value, text, options = {})
       self.block(method, options) do
+        collection_select(method, collection, value, text)
       end
     end
     
