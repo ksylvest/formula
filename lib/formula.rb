@@ -76,7 +76,7 @@ module Formula
             
       components = "".html_safe
       
-      components << self.label(method, options[:label])
+      components << self.label(method, options[:label]) unless options[:label] == false
       
       components << @template.capture(&block)
       
