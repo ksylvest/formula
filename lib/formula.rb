@@ -74,7 +74,7 @@ module Formula
     def block(method, options = {}, &block)
       options[:error] ||= error(method)
             
-      components = []
+      components = "".html_safe
       
       components << self.label(method, options[:label])
       
@@ -84,7 +84,7 @@ module Formula
       components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
       
       @template.content_tag(::Formula.block_tag, options[:container]) do
-        components.join
+        components
       end
     end
     
