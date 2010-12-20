@@ -83,7 +83,7 @@ module Formula
       components << @template.content_tag(::Formula.hint_tag, options[:hint], :class => ::Formula.hint_class) if options[:hint]
       components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
       
-      @template.content_tag(::Formula.block_tag, options[:container]) do
+      @template.content_tag(::Formula.block_tag, options[:container], :class => ::Formula.block_class) do
         components
       end
     end
@@ -139,19 +139,18 @@ module Formula
       self.block(method, options) do
         @template.content_tag(::Formula.input_tag, :class => [::Formula.input_class, options[:as]]) do
           case options[:as]
-            when :text     then text_area(method, options[:input])
-          
-            when :string   then text_field(method, options[:input])
-            when :password then password_field(method, options[:input])
-            
-            when :url      then url_field(method, options[:input])
-            when :email    then email_field(method, options[:input])
-            when :phone    then phone_field(method, options[:input])
-            when :number   then number_field(method, options[:input])
-            
-            when :date     then date_select(method, options[:input])
-            when :time     then time_select(method, options[:input])
-            when :datetime then datetime_select(method, options[:input])
+            when :text     then text_area       method, options[:input]            
+            when :file     then file_field      method, options[:input]
+            when :string   then text_field      method, options[:input]
+            when :password then password_field  method, options[:input]
+            when :hidden   then hidden_field    method, options[:input]
+            when :url      then url_field       method, options[:input]
+            when :email    then email_field     method, options[:input]
+            when :phone    then phone_field     method, options[:input]
+            when :number   then number_field    method, options[:input]
+            when :date     then date_select     method, options[:input]
+            when :time     then time_select     method, options[:input]
+            when :datetime then datetime_select method, options[:input]
           end
         end
       end
