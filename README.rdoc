@@ -19,21 +19,27 @@ Formula is a Rails form generator that generates simple clean markup. The projec
   <% end %>
   
   <% formula_form_for @company do |f|
-    <%= f.input :url, :class => 'grid-04' %>
-    <%= f.input :phone, :class => 'grid-04' %>
-    <%= f.input :email, :class => 'grid-04' %>
+    <%= f.input :url, :container => { :class => 'grid-04' } %>
+    <%= f.input :phone, :container => { :class => 'grid-04' } %>
+    <%= f.input :email, :container => { :class => 'grid-04' } %>
   <% end %>
   
   <% formula_form_for @user do |f| %>
-    <%= f.input :email, :label => "Email:", :class => 'grid-06 %>
-    <%= f.input :password, :label => "Password:", :class => 'grid-06' %>
+    <%= f.input :email, :label => "Email:" %>
+    <%= f.input :password, :label => "Password:" %>
     <% formula_fields_for @user.payment do |payment_f| %>
-      <%= f.input :credit_card_number, :label => 'Number:', :class => 'grid-08' %>
-      <%= f.input :credit_card_verification, :label => 'CVV:', :class => 'grid-02' %>
-      <%= f.input :credit_card_expiration, :label => 'Expiration:', :class => 'grid-02' %>
+      <%= payment_f.input :credit_card_number, :label => 'Number:' %>
+      <%= payment_f.input :credit_card_expiration, :label => 'Expiration:' %>
     <% end %>
   <% end %>
-
+  
+  <% formula_form_for @user do |f| %>
+    <%= f.block :favourite %>
+      <% @favourites.each do |favourite| %>
+        ...
+      <% end %>
+    <% end %>
+    
 == Copyright
 
 Copyright (c) 2010 Kevin Sylvestre. See LICENSE for details.
