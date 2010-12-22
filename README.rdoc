@@ -39,6 +39,7 @@ Formula is a Rails form generator that generates simple clean markup. The projec
         ...
       <% end %>
     <% end %>
+  <% end %>
     
 == Copyright
 
