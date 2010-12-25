@@ -2,6 +2,10 @@
 
 Formula is a Rails form generator that generates simple clean markup. The project aims to let users create semantically beautiful forms without introducing too much syntax. The goal is to make integrating advanced layout systems (such as grid systems) as simple as possible.
 
+== Requirements
+
+The gem has only been tested with Ruby 1.9.2 and Rails 3.0.3 but may well work with other versions of Ruby and Rails.
+
 == Installation
 
   gem install formula
