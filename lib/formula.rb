@@ -80,10 +80,13 @@ module Formula
       
       components << @template.capture(&block)
       
-      components << @template.content_tag(::Formula.hint_tag, options[:hint], :class => ::Formula.hint_class) if options[:hint]
+      options[:container] ||= {}
+      options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.block_class
+      
+      components << @template.content_tag(::Formula.hint_tag , options[:hint ], :class => ::Formula.hint_class ) if options[:hint ]
       components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
       
-      @template.content_tag(::Formula.block_tag, options[:container], :class => ::Formula.block_class) do
+      @template.content_tag(::Formula.block_tag, options[:container]) do
         components
       end
     end
@@ -264,27 +267,34 @@ module Formula
     
     # Generate error messages by combining all errors on an object into a comma seperated string 
     # representation. 
-    #
-    # Returns:
-    #
-    # * "name "
-    # * :email    - for string columns named 'email'
-    # * :phone    - for string columns named 'phone'
-    # * :password - for string columns named 'password'
-    # * :number   - for integer, float, or decimal columns
-    # * :text     - for all other cases
     
     def error(method)
       @object.errors[method].to_sentence
     end
     
+    
+    # Create an array from a string, a symbol, or an undefined value. The default is to return 
+    # the value and assume it has already is valid.
+    
+    def arrayorize(value)
+      case value
+        when nil    then return []
+        when String then value.to_s.split
+        when Symbol then value.to_s.split
+        else value
+      end
+    end
+    
+    
   public
+    
     
     def formula_fields_for(record_or_name_or_array, *args, &block)
       options = args.extract_options!
       options[:builder] ||= self.class
       fields_for(record_or_name_or_array, *(args << options), &block)
     end
+    
   
   end
   
