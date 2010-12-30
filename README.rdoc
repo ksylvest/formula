@@ -15,17 +15,20 @@ The gem has only been tested with Ruby 1.9.2 and Rails 3.0.3 but may well work w
   <% formula_form_for @user do |f| %>
     <%= f.input :email %>
     <%= f.input :password %>
+    <%= f.button :submit %>
   <% end %>
 
   <% formula_form_for @user do |f| %>
     <%= f.input :email, :label => "Email:", :hint => "We promise never to bother you." %>
     <%= f.input :password, :label => "Password:", :hint => "Must be at least six characters." %>
+    <%= f.button :submit %>
   <% end %>
   
   <% formula_form_for @company do |f|
     <%= f.input :url, :container => { :class => 'grid-04' } %>
     <%= f.input :phone, :container => { :class => 'grid-04' } %>
     <%= f.input :email, :container => { :class => 'grid-04' } %>
+    <%= f.button :submit %>
   <% end %>
   
   <% formula_form_for @user do |f| %>
@@ -35,6 +38,7 @@ The gem has only been tested with Ruby 1.9.2 and Rails 3.0.3 but may well work w
       <%= payment_f.input :credit_card_number, :label => 'Number:' %>
       <%= payment_f.input :credit_card_expiration, :label => 'Expiration:' %>
     <% end %>
+    <%= f.button :submit %>
   <% end %>
   
   <% formula_form_for @user do |f| %>
@@ -43,6 +47,7 @@ The gem has only been tested with Ruby 1.9.2 and Rails 3.0.3 but may well work w
         ...
       <% end %>
     <% end %>
+    <%= f.button :submit %>
   <% end %>
     
 == Copyright

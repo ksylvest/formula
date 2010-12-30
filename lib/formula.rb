@@ -48,6 +48,36 @@ module Formula
   class FormulaFormBuilder < ActionView::Helpers::FormBuilder
     
     
+    # Generate a form button. 
+    #
+    # Options: 
+    #
+    # * :container - add custom options to the container
+    # * :button    - add custom options to the button
+    #
+    # Usage:
+    #
+    #   f.button(:name)
+    #
+    # Equivalent:
+    #
+    #   <div class="block">
+    #     <%= f.submit(:name)
+    #   </div>
+    
+    def button(value, options = {})
+      options[:button] ||= {}
+      
+      options[:container] ||= {}
+      options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.block_class
+      
+      
+      @template.content_tag(::Formula.block_tag, options[:container]) do
+        submit value, options[:button]
+      end
+    end
+    
+    
     # Basic container generator for use with blocks.
     #
     # Options: 
@@ -64,7 +94,7 @@ module Formula
     #
     # Equivalent:
     #
-    #   <div class='fill'>
+    #   <div class='block fill'>
     #     <%= f.label(:name, "Name:") %>
     #     ...
     #     <div class="hint">Please use your full name.</div>
