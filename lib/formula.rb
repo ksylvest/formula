@@ -65,7 +65,7 @@ module Formula
     #     <%= f.submit(:name)
     #   </div>
     
-    def button(value, options = {})
+    def button(value = nil, options = {})
       options[:button] ||= {}
       
       options[:container] ||= {}
