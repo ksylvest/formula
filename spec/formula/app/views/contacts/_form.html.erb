@@ -1,0 +1,8 @@
+<%= formula_form_for @contact do |form| %>
+  <%= form.input :name, :container => { :class => 'grid-12' } %>
+  <%= form.input :details, :container => { :class => 'grid-12' }%>
+  <%= form.input :email, :container => { :class => 'grid-06' } %>
+  <%= form.input :phone, :container => { :class => 'grid-06' } %>
+  <%= form.input :url, :label => "Website", :container => { :class => 'grid-12' } %>
+  <%= form.button 'Create', :container => { :class => 'grid-12' } %>
+<% end %>

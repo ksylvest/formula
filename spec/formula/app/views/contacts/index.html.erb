@@ -1,0 +1,20 @@
+<div class="container">
+  
+  <h1 class="grid-12">Index</h1>
+  
+  <table class="grid-12">
+    <%- @contacts.each do |contact| -%>
+      <tr>
+        <th><%= contact.name %></th>
+        <td><%= contact.phone %></td>
+        <td><%= mail_to contact.email %></td>
+        <td><%= link_to contact.url %></td>
+      </tr>
+    <%- end -%>
+  </table>
+  
+  <p class="grid-12">
+    <%= link_to 'New', new_contact_path %>
+  </p>
+  
+</div>
