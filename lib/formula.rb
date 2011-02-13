@@ -237,6 +237,7 @@ module Formula
     def association(method, collection, value, text, options = {})
       options[:as] ||= :select
       options[:association] ||= {}
+      options[:association][:html] ||= {}
       
       self.block(method, options) do
         @template.content_tag(::Formula.association_tag, :class => [::Formula.association_class, options[:as]]) do
