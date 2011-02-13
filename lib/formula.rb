@@ -202,16 +202,37 @@ module Formula
     # Usage:
     #
     #   f.association(:category_id, Category.all, :id, :name, :hint => "What do you do?")
+    #   f.association(:category_id, Category.all, :id, :name, :association => { :prompt => "Category?" })
+    #   f.association(:category_id, Category.all, :id, :name, :association => { :html => { :class => "category" } })
     #
     # Equivalent:
     #
     #   <div>
     #     <div class="association">
     #       <%= f.label(:category_id)
-    #       <div class="association"><%= f.collection_select(:category_id, Category.all, :id, :name) %></div>
+    #       <div class="association">
+    #         <%= f.collection_select(:category_id, Category.all, :id, :name) %>
+    #       </div>
     #       <div class="hint">What do you do?</div>
     #     </div>
     #   </div>
+    #   <div>
+    #     <div class="association">
+    #       <%= f.label(:category_id)
+    #       <div class="association">
+    #         <%= f.collection_select(:category_id, Category.all, :id, :name, { :prompt => "Category") } %>
+    #       </div>
+    #     </div>
+    #   </div>
+    #   <div>
+    #     <div class="association">
+    #       <%= f.label(:category_id)
+    #       <div class="association">
+    #         <%= f.collection_select(:category_id, Category.all, :id, :name, {}, { :class => "category" } %>
+    #       </div>
+    #     </div>
+    #   </div>
+    
     
     def association(method, collection, value, text, options = {})
       options[:as] ||= :select
@@ -220,7 +241,8 @@ module Formula
       self.block(method, options) do
         @template.content_tag(::Formula.association_tag, :class => [::Formula.association_class, options[:as]]) do
           case options[:as]
-            when :select then collection_select(method, collection, value, text, options[:association])
+            when :select then collection_select(method, collection, value, text, 
+              options[:association], options[:association].delete(:html))
           end
         end
       end
@@ -317,13 +339,33 @@ module Formula
     
     
   public
-    
+  
+  
+    # Generates a wrapper around fields_form with :builder set to FormulaFormBuilder.
+    #
+    # Supports:
+    #
+    # * f.formula_fields_for(@user.company)
+    # * f.fieldsula_for(@user.company)
+    #
+    # Equivalent:
+    #
+    # * f.fields_for(@user.company, :builder => Formula::FormulaFormBuilder))
+    #
+    # Usage:
+    #
+    #   <% f.formula_fields_for(@user.company) do |company_f| %>
+    #     <%= company_f.input :url %>
+    #     <%= company_f.input :phone %>
+    #   <% end %>
     
     def formula_fields_for(record_or_name_or_array, *args, &block)
       options = args.extract_options!
       options[:builder] ||= self.class
       fields_for(record_or_name_or_array, *(args << options), &block)
     end
+    
+    alias :fieldsula_for :formula_fields_for
     
   
   end
@@ -358,7 +400,7 @@ module Formula
     alias :formula_for :formula_form_for
     
     
-    # Generates a wrapper around fields_form with :builder set to FormulaFormBuilder.
+    # Generates a wrapper around fields_for with :builder set to FormulaFormBuilder.
     #
     # Supports:
     #
@@ -371,7 +413,7 @@ module Formula
     #
     # Usage:
     #
-    #   <% f.formula_form_for(@user.company) do |company_f| %>
+    #   <% f.formula_fields_for(@user.company) do |company_f| %>
     #     <%= company_f.input :url %>
     #     <%= company_f.input :phone %>
     #   <% end %>
