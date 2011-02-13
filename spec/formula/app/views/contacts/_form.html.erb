@@ -1,8 +1,17 @@
 <%= formula_form_for @contact do |form| %>
+
   <%= form.input :name, :container => { :class => 'grid-12' } %>
+  
   <%= form.input :details, :container => { :class => 'grid-12' }%>
+  
   <%= form.input :email, :container => { :class => 'grid-06' } %>
   <%= form.input :phone, :container => { :class => 'grid-06' } %>
+  
   <%= form.input :url, :label => "Website", :container => { :class => 'grid-12' } %>
+  
+  <%= form.association :group_id, Group.all, :id, :name, :container => { :class => 'grid-12' }, 
+    :association => { :prompt => "-- Group --", :html => { :class => 'group' } } %>
+    
   <%= form.button 'Create', :container => { :class => 'grid-12' } %>
+  
 <% end %>

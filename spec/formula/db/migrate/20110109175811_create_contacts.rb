@@ -1,6 +1,8 @@
 class CreateContacts < ActiveRecord::Migration
   def self.up
     create_table :contacts do |t|
+      t.integer :group_id
+      
       t.string :name
       t.text :details
       t.string :phone
