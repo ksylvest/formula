@@ -8,4 +8,6 @@ class Contact < ActiveRecord::Base
   validates_presence_of :phone
   validates_presence_of :url
   
+  has_attached :avatar
+  
 end

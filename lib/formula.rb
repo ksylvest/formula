@@ -44,6 +44,14 @@ module Formula
   mattr_accessor :hint_tag
   @@hint_tag = :div
   
+  # Method for file.
+  mattr_accessor :file
+  @@file = [:file?]
+  
+  # Default as.
+  mattr_accessor :default_as
+  @@default_as = :string
+  
   
   class FormulaFormBuilder < ActionView::Helpers::FormBuilder
     
@@ -274,6 +282,18 @@ module Formula
     end
     
     
+    # Introspection on an association to determine if a method is a file. This 
+    # is determined by the methods ability to respond to file methods.
+    
+    def file?(method)
+      @files ||= {}
+      @files[method] ||= begin
+        file = @object.send(method) if @object && @object.respond_to?(method)
+        file && ::Formula.file.any? { |method| file.respond_to?(method) }
+      end
+    end
+    
+    
     # Introspection on the field and method to determine how to render a method. The method is 
     # used to generate form element types.
     #
@@ -291,18 +311,15 @@ module Formula
     # * :string   - for all other cases
     
     def as(method)
-      type = type(method)
       
-      if type == :string or type == nil
-        case method
-          when /url/      then return :url
-          when /email/    then return :email
-          when /phone/    then return :phone
-          when /password/ then return :password
-        end
+      case method
+        when /url/      then return :url
+        when /email/    then return :email
+        when /phone/    then return :phone
+        when /password/ then return :password
       end
       
-      case type
+      case type(method)
         when :string    then return :string
         when :integer   then return :number
         when :float     then return :number
@@ -314,7 +331,10 @@ module Formula
         when :text      then return :text
       end
       
-      return :string
+      return :file if file?(method)
+      
+      return ::Formula.default_as
+      
     end
     
     

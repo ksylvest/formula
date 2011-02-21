@@ -9,6 +9,8 @@
   
   <%= form.input :url, :label => "Website", :container => { :class => 'grid-12' } %>
   
+  <%= form.input :avatar, :container => { :class => 'grid-12' } %>
+  
   <%= form.association :group_id, Group.all, :id, :name, :container => { :class => 'grid-12' }, 
     :association => { :prompt => "-- Group --", :html => { :class => 'group' } } %>
     

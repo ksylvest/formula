@@ -8,6 +8,9 @@ class CreateContacts < ActiveRecord::Migration
       t.string :phone
       t.string :email
       t.string :url
+      
+      t.string :avatar_identifier
+      t.string :avatar_extension
 
       t.timestamps
     end
