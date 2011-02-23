@@ -106,7 +106,7 @@ module Formula
     #     <%= f.label(:name, "Name:") %>
     #     ...
     #     <div class="hint">Please use your full name.</div>
-    #     <div class="error"></div>
+    #     <div class="error">...</div>
     #   </div>
     
     def block(method, options = {}, &block)
@@ -152,17 +152,19 @@ module Formula
     #   <div class="block">
     #     <%= f.label(:name)
     #     <div class="input string"><%= f.text_field(:name)</div>
+    #      <div class="error">...</div>
     #   </div>
     #   <div class="block">
     #     <%= f.label(:email)
     #     <div class="input string"><%= f.email_field(:email)</div>
-    #     </div>
+    #      <div class="error">...</div>
     #   </div>
     #   <div class="block half">
     #     <div class="input">
     #       <%= f.label(:password_a, "Password")
     #       <%= f.password_field(:password_a)
     #       <div class="hint">It's a secret!</div>
+    #       <div class="error">...</div>
     #     </div>
     #   </div>
     #   <div class="block half">
@@ -170,6 +172,7 @@ module Formula
     #       <%= f.label(:password_b, "Password")
     #       <%= f.password_field(:password_b)
     #       <div class="hint">It's a secret!</div>
+    #       <div class="error">...</div>
     #     </div>
     #   </div>
     
@@ -209,35 +212,38 @@ module Formula
     #
     # Usage:
     #
-    #   f.association(:category_id, Category.all, :id, :name, :hint => "What do you do?")
-    #   f.association(:category_id, Category.all, :id, :name, :association => { :prompt => "Category?" })
-    #   f.association(:category_id, Category.all, :id, :name, :association => { :html => { :class => "category" } })
+    #   f.association(:category, Category.all, :id, :name, :hint => "What do you do?")
+    #   f.association(:category, Category.all, :id, :name, :association => { :prompt => "Category?" })
+    #   f.association(:category, Category.all, :id, :name, :association => { :html => { :class => "category" } })
     #
     # Equivalent:
     #
     #   <div>
     #     <div class="association">
-    #       <%= f.label(:category_id)
+    #       <%= f.label(:category)
     #       <div class="association">
-    #         <%= f.collection_select(:category_id, Category.all, :id, :name) %>
+    #         <%= f.collection_select(:category, Category.all, :id, :name) %>
     #       </div>
     #       <div class="hint">What do you do?</div>
+    #       <div class="error">...</div>
     #     </div>
     #   </div>
     #   <div>
     #     <div class="association">
-    #       <%= f.label(:category_id)
+    #       <%= f.label(:category)
     #       <div class="association">
-    #         <%= f.collection_select(:category_id, Category.all, :id, :name, { :prompt => "Category") } %>
+    #         <%= f.collection_select(:category, Category.all, :id, :name, { :prompt => "Category") } %>
     #       </div>
+    #       <div class="error">...</div>
     #     </div>
     #   </div>
     #   <div>
     #     <div class="association">
-    #       <%= f.label(:category_id)
+    #       <%= f.label(:category)
     #       <div class="association">
-    #         <%= f.collection_select(:category_id, Category.all, :id, :name, {}, { :class => "category" } %>
+    #         <%= f.collection_select(:category, Category.all, :id, :name, {}, { :class => "category" } %>
     #       </div>
+    #       <div class="error">...</div>
     #     </div>
     #   </div>
     
@@ -250,7 +256,7 @@ module Formula
       self.block(method, options) do
         @template.content_tag(::Formula.association_tag, :class => [::Formula.association_class, options[:as]]) do
           case options[:as]
-            when :select then collection_select(method, collection, value, text, 
+            when :select then collection_select(:"#{method}_id", collection, value, text, 
               options[:association], options[:association].delete(:html))
           end
         end
