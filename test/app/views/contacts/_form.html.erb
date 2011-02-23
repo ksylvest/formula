@@ -11,7 +11,7 @@
   
   <%= form.input :avatar, :container => { :class => 'grid-12' } %>
   
-  <%= form.association :group_id, Group.all, :id, :name, :container => { :class => 'grid-12' }, 
+  <%= form.association :group, Group.all, :id, :name, :container => { :class => 'grid-12' }, 
     :association => { :prompt => "-- Group --", :html => { :class => 'group' } } %>
     
   <%= form.button 'Create', :container => { :class => 'grid-12' } %>
