@@ -11,6 +11,7 @@ class CreateContacts < ActiveRecord::Migration
       
       t.string :avatar_identifier
       t.string :avatar_extension
+      t.integer :avatar_size
 
       t.timestamps
     end

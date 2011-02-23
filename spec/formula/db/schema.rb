@@ -19,6 +19,9 @@ ActiveRecord::Schema.define(:version => 20110213001348) do
     t.string   "phone"
     t.string   "email"
     t.string   "url"
+    t.string   "avatar_identifier"
+    t.string   "avatar_extension"
+    t.integer  "avatar_size"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
