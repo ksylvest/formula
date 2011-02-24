@@ -9,8 +9,9 @@ class Contact < ActiveRecord::Base
   validates_presence_of :url
   validates_presence_of :group
   
-  has_attached :avatar
+  validates_format_of :email, :with => /\A([^\s]+)@([^\s]+)\Z/i, :message => "is not valid"
+  validates_format_of :phone, :with => /\A[0-9\s\(\)\+\-]+\Z/i, :message => "is not valid"
   
-  validates_attached_presence :avatar
+  has_attached :avatar
   
 end
