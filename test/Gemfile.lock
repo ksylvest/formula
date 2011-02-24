@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    formula (0.2.3)
+    formula (0.2.4)
 
 GEM
   remote: http://rubygems.org/
@@ -34,7 +34,7 @@ GEM
       activesupport (= 3.0.4)
     activesupport (3.0.4)
     arel (2.0.8)
-    attached (0.2.7)
+    attached (0.2.8)
       fog
       guid
     builder (2.1.2)
