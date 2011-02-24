@@ -119,7 +119,7 @@ module Formula
       components << @template.capture(&block)
       
       options[:container] ||= {}
-      options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.block_class
+      options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.block_class << method
       
       components << @template.content_tag(::Formula.hint_tag , options[:hint ], :class => ::Formula.hint_class ) if options[:hint ]
       components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
