@@ -52,4 +52,4 @@ The gem has only been tested with Ruby 1.9.2 and Rails 3.0.3 but may well work w
     
 == Copyright
 
-Copyright (c) 2010 Kevin Sylvestre. See LICENSE for details.
+Copyright (c) 2010 - 2011 Kevin Sylvestre. See LICENSE for details.
