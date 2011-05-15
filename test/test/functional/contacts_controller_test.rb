@@ -4,6 +4,7 @@ class ContactsControllerTest < ActionController::TestCase
   
   setup do
     @contact = contacts(:kevin)
+    @avatar = fixture_file_upload("/contacts/avatar.png", "image/png", :binary)
   end
   
   test "should get index" do
