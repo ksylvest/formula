@@ -179,7 +179,6 @@ module Formula
     def input(method, options = {})
       options[:as] ||= as(method)
       options[:input] ||= {}
-      options[:input][:html] ||= {}
       
       self.block(method, options) do
         @template.content_tag(::Formula.input_tag, :class => [::Formula.input_class, options[:as]]) do
@@ -193,10 +192,10 @@ module Formula
             when :email    then email_field     method, options[:input]
             when :phone    then phone_field     method, options[:input]
             when :number   then number_field    method, options[:input]
-            when :date     then date_select     method, options[:input], options[:input][:html]
-            when :time     then time_select     method, options[:input], options[:input][:html]
-            when :datetime then datetime_select method, options[:input], options[:input][:html]
-            when :select   then select          method, options[:choices], options[:input], options[:input][:html]
+            when :date     then date_select     method, options[:input], options[:input].delete(:html) || {}
+            when :time     then time_select     method, options[:input], options[:input].delete(:html) || {}
+            when :datetime then datetime_select method, options[:input], options[:input].delete(:html) || {}
+            when :select   then select          method, options[:choices], options[:input], options[:input].delete(:html) || {}
           end
         end
       end
@@ -253,13 +252,12 @@ module Formula
     def association(method, collection, value, text, options = {})
       options[:as] ||= :select
       options[:association] ||= {}
-      options[:association][:html] ||= {}
       
       self.block(method, options) do
         @template.content_tag(::Formula.association_tag, :class => [::Formula.association_class, options[:as]]) do
           case options[:as]
-            when :select then collection_select(:"#{method}_id", collection, value, text, 
-              options[:association], options[:association].delete(:html))
+            when :select then collection_select :"#{method}_id", collection, value, text, 
+              options[:association], options[:association].delete(:html) || {}
           end
         end
       end
