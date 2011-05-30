@@ -4,7 +4,7 @@ Formula is a Rails form helper that generates awesome markup. The project aims t
 
 == Requirements
 
-The gem is tested with Ruby 1.9.2 and Rails 3.0.6 but may well work with other versions of Ruby and Rails.
+The gem is tested with Ruby 1.9.2 and Rails 3.0.7 but may well work with other versions of Ruby and Rails.
 
 == Installation
 
@@ -19,24 +19,25 @@ The gem is tested with Ruby 1.9.2 and Rails 3.0.6 but may well work with other v
   <% end %>
 
   <% formula_form_for @user do |f| %>
-    <%= f.input :email, :label => "Email:", :hint => "We promise never to bother you." %>
-    <%= f.input :password, :label => "Password:", :hint => "Must be at least six characters." %>
+    <%= f.input :email, label: "Email:", hint: "We promise never to bother you." %>
+    <%= f.input :password, label: "Password:", hint: "Must be at least six characters." %>
     <%= f.button :submit %>
   <% end %>
   
   <% formula_form_for @company do |f|
-    <%= f.input :url, :container => { :class => 'grid-04' } %>
-    <%= f.input :phone, :container => { :class => 'grid-04' } %>
-    <%= f.input :email, :container => { :class => 'grid-04' } %>
+    <%= f.input :url,   container: { class: 'grid-04' }, input: { class: 'fill' } %>
+    <%= f.input :phone, container: { class: 'grid-04' }, input: { class: 'fill' } %>
+    <%= f.input :email, container: { class: 'grid-04' }, input: { class: 'fill' } %>
     <%= f.button :submit %>
   <% end %>
   
   <% formula_form_for @user do |f| %>
-    <%= f.input :email, :label => "Email:" %>
-    <%= f.input :password, :label => "Password:" %>
+    <%= f.input :email, label: "Email:" %>
+    <%= f.input :password, label: "Password:" %>
+    <%= f.input :gender, label: 'Gender:', as: :select, choices: User::GENDERS %>
     <% formula_fields_for @user.payment do |payment_f| %>
-      <%= payment_f.input :credit_card_number, :label => 'Number:' %>
-      <%= payment_f.input :credit_card_expiration, :label => 'Expiration:' %>
+      <%= payment_f.input :credit_card_number, label: 'Number:' %>
+      <%= payment_f.input :credit_card_expiration, label: 'Expiration:' %>
     <% end %>
     <%= f.button :submit %>
   <% end %>
