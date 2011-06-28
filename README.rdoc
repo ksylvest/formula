@@ -15,20 +15,20 @@ The gem is tested with Ruby 1.9.2 and Rails 3.0.7 but may well work with other v
   <% formula_form_for @user do |f| %>
     <%= f.input :email %>
     <%= f.input :password %>
-    <%= f.button :submit %>
+    <%= f.button 'Save' } %>
   <% end %>
 
   <% formula_form_for @user do |f| %>
     <%= f.input :email, label: "Email:", hint: "We promise never to bother you." %>
     <%= f.input :password, label: "Password:", hint: "Must be at least six characters." %>
-    <%= f.button :submit %>
+    <%= f.button 'Save' %>
   <% end %>
   
   <% formula_form_for @company do |f|
     <%= f.input :url,   container: { class: 'grid-04' }, input: { class: 'fill' } %>
     <%= f.input :phone, container: { class: 'grid-04' }, input: { class: 'fill' } %>
     <%= f.input :email, container: { class: 'grid-04' }, input: { class: 'fill' } %>
-    <%= f.button :submit %>
+    <%= f.button 'Save', button: { class: 'fancy' } %>
   <% end %>
   
   <% formula_form_for @user do |f| %>
@@ -39,7 +39,7 @@ The gem is tested with Ruby 1.9.2 and Rails 3.0.7 but may well work with other v
       <%= payment_f.input :credit_card_number, label: 'Number:' %>
       <%= payment_f.input :credit_card_expiration, label: 'Expiration:' %>
     <% end %>
-    <%= f.button :submit %>
+    <%= f.button 'Save', button: { class: 'fancy' } %>
   <% end %>
   
   <% formula_form_for @user do |f| %>
@@ -48,7 +48,7 @@ The gem is tested with Ruby 1.9.2 and Rails 3.0.7 but may well work with other v
         ...
       <% end %>
     <% end %>
-    <%= f.button :submit %>
+    <%= f.button 'Save', button: { class: 'fancy' } %>
   <% end %>
     
 == Copyright
