@@ -188,6 +188,7 @@ module Formula
             when :string   then text_field      method, options[:input]
             when :password then password_field  method, options[:input]
             when :hidden   then hidden_field    method, options[:input]
+            when :boolean  then check_box       method, options[:input]
             when :url      then url_field       method, options[:input]
             when :email    then email_field     method, options[:input]
             when :phone    then phone_field     method, options[:input]
