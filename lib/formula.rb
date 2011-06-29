@@ -319,7 +319,7 @@ module Formula
     
     def as(method)
       
-      case method
+      case "#{method}"
         when /url/      then return :url
         when /email/    then return :email
         when /phone/    then return :phone
