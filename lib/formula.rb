@@ -70,7 +70,7 @@ module Formula
     # Equivalent:
     #
     #   <div class="block">
-    #     <%= f.submit(:name)
+    #     <%= f.submit("Save")
     #   </div>
     
     def button(value = nil, options = {})
@@ -109,12 +109,14 @@ module Formula
     #     <div class="error">...</div>
     #   </div>
     
-    def block(method, options = {}, &block)
-      options[:error] ||= error(method)
+    def block(method = nil, options = {}, &block)
+      options[:error] ||= error(method) if method
             
       components = "".html_safe
       
-      components << self.label(method, options[:label]) unless options[:label] == false
+      if method
+        components << self.label(method, options[:label]) if options[:label] or options[:label].nil? and method
+      end
       
       components << @template.capture(&block)
       
