@@ -195,6 +195,7 @@ module Formula
             when :email    then email_field     method, options[:input]
             when :phone    then phone_field     method, options[:input]
             when :number   then number_field    method, options[:input]
+            when :country  then country_select  method, options[:input]
             when :date     then date_select     method, options[:input], options[:input].delete(:html) || {}
             when :time     then time_select     method, options[:input], options[:input].delete(:html) || {}
             when :datetime then datetime_select method, options[:input], options[:input].delete(:html) || {}
