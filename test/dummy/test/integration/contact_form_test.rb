@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ContactTest < ActionDispatch::IntegrationTest
+class ContactFormTest < ActionDispatch::IntegrationTest
   
   fixtures :all
   
