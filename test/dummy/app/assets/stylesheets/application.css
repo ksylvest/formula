@@ -1,7 +1,158 @@
 /*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
  *= require_tree . 
 */
+
+/* global */
+
+html, body
+{
+  font-family: Helvetica, Verdana, Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* grid */
+
+.container
+{
+  width: 960px;
+  margin-left:  auto;
+  margin-right: auto;
+}
+
+.grid-01, .grid-02, .grid-03, .grid-04, .grid-05, .grid-06, .grid-07, .grid-08, .grid-09, .grid-10, .grid-11, .grid-12 
+{
+  float: left;
+  display: inline;
+  position: relative;
+  margin-left:  10px;
+  margin-right: 10px;
+}
+
+.alpha { margin-left:  0px; }
+.omega { margin-right: 0px; }
+
+.grid-01 { width:  60px; }
+.grid-02 { width: 140px; }
+.grid-03 { width: 220px; }
+.grid-04 { width: 300px; }
+.grid-05 { width: 380px; }
+.grid-06 { width: 460px; }
+.grid-07 { width: 540px; }
+.grid-08 { width: 620px; }
+.grid-09 { width: 700px; }
+.grid-10 { width: 780px; }
+.grid-11 { width: 860px; }
+.grid-12 { width: 940px; }
+
+.prefix-01 { padding-left:   80px; }
+.suffix-01 { padding-right:  80px; }
+.prefix-02 { padding-left:  160px; }
+.suffix-02 { padding-right: 160px; }
+.prefix-03 { padding-left:  240px; }
+.suffix-03 { padding-right: 240px; }
+.prefix-04 { padding-left:  320px; }
+.suffix-04 { padding-right: 320px; }
+.prefix-05 { padding-left:  400px; }
+.suffix-05 { padding-right: 400px; }
+.prefix-06 { padding-left:  480px; }
+.suffix-06 { padding-right: 480px; }
+.prefix-07 { padding-left:  560px; }
+.suffix-07 { padding-right: 560px; }
+.prefix-08 { padding-left:  640px; }
+.suffix-08 { padding-right: 640px; }
+.prefix-09 { padding-left:  720px; }
+.suffix-09 { padding-right: 720px; }
+.prefix-10 { padding-left:  800px; }
+.suffix-10 { padding-right: 800px; }
+.prefix-11 { padding-left:  880px; }
+.suffix-11 { padding-right: 880px; }
+
+.left  { float: left;  }
+.right { float: right; }
+
+.center  { text-align: center;  }
+.justify { text-align: justify; }
+
+.clear
+{
+  clear: both;
+	overflow: hidden;
+	visibility: hidden;
+  height: 0px; 
+  width: 0px;
+}
+
+/* form */
+
+.field_with_errors 
+{ 
+  display: inline;
+}
+
+.input
+{
+  padding: 0px;
+}
+
+.input.url, .input.text, .input.email, .input.string, .input.phone, .input.password
+{
+  padding: 0px 20px 0px 0px;
+}
+
+.block
+{
+  padding: 4px 0px;
+}
+
+.hint
+{
+  display: block;
+  color: #888;
+  margin: 2px 0px;
+  padding: 0px;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.error
+{
+  display: block;
+  color: #C22;
+  margin: 2px 0px;
+  padding: 0px;
+  font-size: 12px;
+  font-weight: bolder;
+}
+
+label
+{
+  display: inline;
+  color: #444;
+  margin: 2px 0px;
+  padding: 0px;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+input[type="url"], 
+input[type="tel"], 
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+textarea
+{
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+textarea
+{
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  font-weight: normal;d
+}
