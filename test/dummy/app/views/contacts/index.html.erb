@@ -1,20 +1,21 @@
-<div class="container">
-  
-  <h1 class="grid-12">Index</h1>
-  
-  <table class="grid-12">
-    <%- @contacts.each do |contact| -%>
-      <tr>
-        <th><%= contact.name %></th>
-        <td><%= contact.phone %></td>
-        <td><%= mail_to contact.email %></td>
-        <td><%= link_to contact.url %></td>
-      </tr>
-    <%- end -%>
-  </table>
-  
-  <p class="grid-12">
-    <%= link_to 'New', new_contact_path %>
-  </p>
-  
-</div>
+<h1>Contacts</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @contacts.each do |contact| %>
+  <tr>
+    <td><%= contact.name %></td>
+    <td><%= link_to 'Edit', edit_contact_path(contact) %></td>
+    <td><%= link_to 'Destroy', contact, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Contact', new_contact_path %>
