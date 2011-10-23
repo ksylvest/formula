@@ -16,7 +16,7 @@ class ContactsController < ApplicationController
   
   # GET /contacts/:id/edit
   def edit
-    @contact = Contact.new
+    @contact = Contact.find(params[:id])
     respond_with(@contact)
   end
   
