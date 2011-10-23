@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-$:.push File.join(File.dirname(__FILE__), 'lib')
+$:.push File.expand_path("../lib", __FILE__)
 require "formula/version"
 
 Gem::Specification.new do |s|
@@ -10,6 +10,10 @@ Gem::Specification.new do |s|
   s.email       = ["kevin@ksylvest.com"]
   s.homepage    = "http://github.com/ksylvest/formula"
   s.summary     = "A great way to simplify complex forms"
-  s.description = "Formula is a Rails form generator that generates simple clean markup. The project aims to let users create semantically beautiful forms without introducing too much syntax. The goal is to make integrating advanced layout systems (such as grid systems) as simple as possible."
-  s.files       = Dir.glob("{bin,lib}/**/*") + %w(README.rdoc LICENSE Gemfile Rakefile)
+  s.description = "Formula is a Rails form generator that generates simple clean markup. The project aims to let users create semantically beautiful forms without introducing too much syntax. The goal is to make integrating advanced layout systems as simple as possible."
+
+  s.files       = Dir["{bin,lib}/**/*"] + %w(README.rdoc LICENSE Rakefile)
+  s.test_files  = Dir["test/**/*"]
+
+  s.add_dependency "rails", "> 3.0.0"
 end
