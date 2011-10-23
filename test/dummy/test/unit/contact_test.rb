@@ -1,4 +1,4 @@
 require 'test_helper'
 
-class ContactTest < ActiveSupport::TestCase  
+class ContactTest < ActiveSupport::TestCase
 end
