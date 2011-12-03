@@ -58,7 +58,11 @@ The gem is tested with:
     <% end %>
     <%= f.button 'Save', button: { class: 'fancy' } %>
   <% end %>
-    
+
+== Status
+
+{<img src="http://travis-ci.org/ksylvest/attached.png" />}[http://travis-ci.org/ksylvest/attached]
+
 == Copyright
 
 Copyright (c) 2010 - 2011 Kevin Sylvestre. See LICENSE for details.
