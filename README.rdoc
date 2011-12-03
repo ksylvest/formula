@@ -61,7 +61,7 @@ The gem is tested with:
 
 == Status
 
-{<img src="http://travis-ci.org/ksylvest/attached.png" />}[http://travis-ci.org/ksylvest/attached]
+{<img src="http://travis-ci.org/ksylvest/formula.png" />}[http://travis-ci.org/ksylvest/formula]
 
 == Copyright
 
