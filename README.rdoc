@@ -59,6 +59,10 @@ The gem is tested with:
     <%= f.button 'Save', button: { class: 'fancy' } %>
   <% end %>
 
+== Contributors
+
+* Iliya Grushevskiy
+
 == Status
 
 {<img src="http://travis-ci.org/ksylvest/formula.png" />}[http://travis-ci.org/ksylvest/formula]

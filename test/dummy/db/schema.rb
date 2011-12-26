@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(:version => 20110213001348) do
   create_table "contacts", :force => true do |t|
     t.integer  "group_id"
     t.string   "name"
+    t.string   "slug"
     t.text     "details"
     t.string   "phone"
     t.string   "email"

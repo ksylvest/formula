@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    formula (0.3.3)
+    formula (0.3.4)
       rails (> 3.0.0)
 
 GEM
