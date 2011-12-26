@@ -353,7 +353,7 @@ module Formula
     
     def error(method)
       errors = @object.errors[method] if @object
-      errors.to_sentence if errors.any?
+      errors.to_sentence unless errors.blank?
     end
     
     
