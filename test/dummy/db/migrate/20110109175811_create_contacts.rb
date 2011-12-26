@@ -4,6 +4,7 @@ class CreateContacts < ActiveRecord::Migration
       t.references :group
       
       t.string :name
+      t.string :slug
       t.text :details
       
       t.string :phone
