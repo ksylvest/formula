@@ -28,7 +28,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank")
     end
     
-    assert_select(".block.email") do
+    assert_select(".block") do
       assert_select(".input.email") do
         assert_select("input[type=email]")
       end
@@ -37,7 +37,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank and is not valid")
     end
     
-    assert_select(".block.phone") do
+    assert_select(".block") do
        assert_select(".input.phone") do
          assert_select("input[type=tel]")
        end
@@ -46,7 +46,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
        assert_select(".error", "can't be blank and is not valid")
      end
     
-    assert_select(".block.url") do
+    assert_select(".block") do
       assert_select(".input.url") do
         assert_select("input[type=url]")
       end
@@ -55,14 +55,14 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank")
     end
     
-    assert_select(".block.avatar") do
+    assert_select(".block") do
       assert_select(".input.file") do
         assert_select("input[type=file]")
       end
       assert_select("label", "Avatar")
     end
     
-    assert_select(".block.group") do
+    assert_select(".block") do
       assert_select(".association.select") do
         assert_select("select") do
           assert_select("option", "Designer")
