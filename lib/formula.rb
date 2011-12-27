@@ -187,6 +187,8 @@ module Formula
       options[:as] ||= as(method)
       options[:input] ||= {}
       
+      return hidden_field method, options[:input] if options[:as] == :hidden
+      
       self.block(method, options) do
         @template.content_tag(::Formula.input_tag, :class => [::Formula.input_class, options[:as]]) do
           case options[:as]
@@ -194,7 +196,6 @@ module Formula
             when :file     then file_field      method, options[:input]
             when :string   then text_field      method, options[:input]
             when :password then password_field  method, options[:input]
-            when :hidden   then hidden_field    method, options[:input]
             when :boolean  then check_box       method, options[:input]
             when :url      then url_field       method, options[:input]
             when :email    then email_field     method, options[:input]

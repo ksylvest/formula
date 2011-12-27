@@ -89,6 +89,9 @@ class ContactFormTest < ActionDispatch::IntegrationTest
     
     assert_select(".block.with_errors", {:count => 6}, 'There should be 7 blocks with "with_errors" class.')
     assert_select('.field_with_errors', false, 'There should be no tags with "field_with_errors" class.')
+    
+    assert_select('#contact_hidden_field', true, 'There should be hidden field')
+    assert_select('.block > #contact_hidden_field', false, 'Hidden field should not be wrapped with block')
   end
   
 end
