@@ -19,6 +19,8 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank")
     end
     
+    assert_select(".block.with_errors.details", {:count => 1}, 'Details block should has "with_errors" class.')
+    
     assert_select(".block.name") do
       assert_select(".input.string") do
         assert_select("input[type=text]")
@@ -28,7 +30,9 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank")
     end
     
-    assert_select(".block.email") do
+    assert_select(".block.with_errors.name", {:count => 1}, 'Name block should has "with_errors" class.')
+    
+    assert_select(".block") do
       assert_select(".input.email") do
         assert_select("input[type=email]")
       end
@@ -37,7 +41,9 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank and is not valid")
     end
     
-    assert_select(".block.phone") do
+    assert_select('.block.email', false, 'Class "email" should not be added to block')
+    
+    assert_select(".block") do
        assert_select(".input.phone") do
          assert_select("input[type=tel]")
        end
@@ -46,7 +52,9 @@ class ContactFormTest < ActionDispatch::IntegrationTest
        assert_select(".error", "can't be blank and is not valid")
      end
     
-    assert_select(".block.url") do
+    assert_select('.block.phone', false, 'Class "phone" should not be added to block')
+    
+    assert_select(".block") do
       assert_select(".input.url") do
         assert_select("input[type=url]")
       end
@@ -55,14 +63,18 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank")
     end
     
-    assert_select(".block.avatar") do
+    assert_select('.block.url', false, 'Class "url" should not be added to block')
+    
+    assert_select(".block") do
       assert_select(".input.file") do
         assert_select("input[type=file]")
       end
       assert_select("label", "Avatar")
     end
     
-    assert_select(".block.group") do
+    assert_select('.block.avatar', false, 'Class "avatar" should not be added to block')
+    
+    assert_select(".block") do
       assert_select(".association.select") do
         assert_select("select") do
           assert_select("option", "Designer")
@@ -73,6 +85,13 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select("label", "Group")
     end
     
+    assert_select('.block.group', false, 'Class "group" should not be added to block')
+    
+    assert_select(".block.with_errors", {:count => 6}, 'There should be 7 blocks with "with_errors" class.')
+    assert_select('.field_with_errors', false, 'There should be no tags with "field_with_errors" class.')
+    
+    assert_select('#contact_hidden_field', true, 'There should be hidden field')
+    assert_select('.block > #contact_hidden_field', false, 'Hidden field should not be wrapped with block')
   end
   
 end
