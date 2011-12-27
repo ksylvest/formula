@@ -16,6 +16,10 @@ module Formula
   mattr_accessor :association_class
   @@association_class = 'association'
   
+  # Default class assigned to block with errors (<div class="block with_errors">...</div>).
+  mattr_accessor :block_error_class
+  @@block_error_class = 'with_errors'
+  
   # Default class assigned to error (<div class="error">...</div>).
   mattr_accessor :error_class
   @@error_class = 'error'
@@ -122,6 +126,7 @@ module Formula
       
       options[:container] ||= {}
       options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.block_class
+      options[:container][:class] << ::Formula.block_error_class if options[:error]
       
       components << @template.content_tag(::Formula.hint_tag , options[:hint ], :class => ::Formula.hint_class ) if options[:hint ]
       components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
@@ -403,6 +408,12 @@ module Formula
   end
   
   module FormulaFormHelper
+    @@default_field_error_proc = nil
+    
+    FIELD_ERROR_PROC = proc do |html_tag, instance_tag|
+      html_tag
+    end
+    
     @@builder = ::Formula::FormulaFormBuilder
     
     
@@ -426,7 +437,10 @@ module Formula
     def formula_form_for(record_or_name_or_array, *args, &proc)
        options = args.extract_options!
        options[:builder] ||= @@builder
-       form_for(record_or_name_or_array, *(args << options), &proc)
+       
+       with_formula_field_error_proc do
+         form_for(record_or_name_or_array, *(args << options), &proc)
+       end
     end
     
     alias :formula_for :formula_form_for
@@ -453,10 +467,23 @@ module Formula
     def formula_fields_for(record_or_name_or_array, *args, &block)
       options = args.extract_options!
       options[:builder] ||= @@builder
-      fields_for(record_or_name_or_array, *(args << options), &block)
+      
+      with_formula_field_error_proc do 
+        fields_for(record_or_name_or_array, *(args << options), &block)
+      end
     end
     
     alias :fieldsula_for :formula_fields_for 
+    
+    private
+
+    def with_formula_field_error_proc
+      @@default_field_error_proc = ::ActionView::Base.field_error_proc
+      ::ActionView::Base.field_error_proc = FIELD_ERROR_PROC
+      result = yield
+      ::ActionView::Base.field_error_proc = @@default_field_error_proc
+      result
+    end
     
   end
   
