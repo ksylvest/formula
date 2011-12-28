@@ -15,7 +15,10 @@
     :association => { :prompt => "-- Group --", :html => { :class => 'group' } } %>
   
   <%= form.input :hidden_field, :as => :hidden %> 
-   
-  <%= form.button 'Save', :container => { :class => 'grid-12' } %>
+  
+  <%= form.actions :container => {:class => 'grid-12'} do %> 
+    <%= form.button 'Save' %>
+    <%= form.button 'Reset', :button => {:type => :reset}%>
+  <% end %>
   
 <% end %>

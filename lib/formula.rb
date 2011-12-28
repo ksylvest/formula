@@ -3,6 +3,9 @@ module Formula
   
   require 'formula/railtie' if defined?(Rails)
   
+  # Default class assigned to actions (<div class="actions">...</div>).
+  mattr_accessor :actions_class
+  @@actions_class = 'actions'
   
   # Default class assigned to block (<div class="block">...</div>).
   mattr_accessor :block_class
@@ -27,6 +30,10 @@ module Formula
   # Default class assigned to hint (<div class="hint">...</div>).
   mattr_accessor :hint_class
   @@hint_class = 'hint'
+  
+  # Default tag assigned to actions (<div class="actions">...</div>).
+  mattr_accessor :actions_tag
+  @@actions_tag = 'div'
   
   # Default tag assigned to block (<div class="input">...</div>).
   mattr_accessor :block_tag
@@ -59,6 +66,16 @@ module Formula
   
   class FormulaFormBuilder < ActionView::Helpers::FormBuilder
     
+    def actions(options = {}, &block)
+      
+      options[:container] ||= {}
+      options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.actions_class
+      
+      
+      @template.content_tag(::Formula.actions_tag, options[:container]) do
+        without_block_wrap &block
+      end
+    end
     
     # Generate a form button. 
     #
@@ -84,9 +101,14 @@ module Formula
       options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.block_class
       
       
-      @template.content_tag(::Formula.block_tag, options[:container]) do
+      if @without_block_wrap
         submit value, options[:button]
-      end
+      else
+        @template.content_tag(::Formula.block_tag, options[:container]) do
+          submit value, options[:button]
+        end
+      end  
+      
     end
     
     
@@ -405,7 +427,16 @@ module Formula
     
     alias :fieldsula_for :formula_fields_for
     
-  
+    
+    private 
+    
+    def without_block_wrap
+      @without_block_wrap = true
+      result = yield
+      @without_block_wrap = false
+      result
+    end
+    
   end
   
   module FormulaFormHelper

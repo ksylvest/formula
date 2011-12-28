@@ -85,9 +85,14 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select("label", "Group")
     end
     
+    assert_select(".actions") do 
+      assert_select('input[type="submit"]')
+      assert_select('input[type="reset"]')
+    end
+    
     assert_select('.block.group', false, 'Class "group" should not be added to block')
     
-    assert_select(".block.with_errors", {:count => 6}, 'There should be 7 blocks with "with_errors" class.')
+    assert_select(".block.with_errors", {:count => 6}, 'There should be 6 blocks with "with_errors" class.')
     assert_select('.field_with_errors', false, 'There should be no tags with "field_with_errors" class.')
     
     assert_select('#contact_hidden_field', true, 'There should be hidden field')
