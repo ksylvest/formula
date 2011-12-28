@@ -1,8 +1,8 @@
 <%= formula_form_for @contact do |form| %>
 
-  <%= form.input :name, :container => { :class => 'grid-12' }, :hint => "first and last name" %>
+  <%= form.input :name, :container => { :class => 'grid-12 name' }, :hint => "first and last name" %>
   
-  <%= form.input :details, :container => { :class => 'grid-12' }, :hint => "a detailed description" %>
+  <%= form.input :details, :container => { :class => 'grid-12 details' }, :hint => "a detailed description" %>
   
   <%= form.input :email, :container => { :class => 'grid-06' }, :hint => "sample@example.com" %>
   <%= form.input :phone, :container => { :class => 'grid-06' }, :hint => "+01 (555) 555-5555" %>
@@ -13,7 +13,12 @@
   
   <%= form.association :group, Group.all, :id, :name, :container => { :class => 'grid-12' }, 
     :association => { :prompt => "-- Group --", :html => { :class => 'group' } } %>
-    
-  <%= form.button 'Save', :container => { :class => 'grid-12' } %>
+  
+  <%= form.input :hidden_field, :as => :hidden %> 
+  
+  <%= form.actions :container => {:class => 'grid-12'} do %> 
+    <%= form.button 'Save' %>
+    <%= form.button 'Reset', :button => {:type => :reset}%>
+  <% end %>
   
 <% end %>

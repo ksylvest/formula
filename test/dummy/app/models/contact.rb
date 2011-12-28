@@ -1,5 +1,7 @@
 class Contact < ActiveRecord::Base
   
+  attr_accessor :hidden_field
+  
   belongs_to :group
   
   validates_presence_of :name
