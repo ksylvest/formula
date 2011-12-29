@@ -126,6 +126,21 @@ html, body
   font-weight: bolder;
 }
 
+.errors label
+{
+	color: #A00;
+}
+
+.errors .hint
+{
+	color: #A00;
+}
+
+.errors .error
+{
+	color: #A00;
+}
+
 label
 {
   display: inline;

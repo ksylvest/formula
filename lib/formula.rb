@@ -16,9 +16,17 @@ module Formula
   mattr_accessor :association_class
   @@association_class = 'association'
   
-  # Default class assigned to block with errors (<div class="block with_errors">...</div>).
+  # Default class assigned to block with errors (<div class="block errors">...</div>).
   mattr_accessor :block_error_class
-  @@block_error_class = 'with_errors'
+  @@block_error_class = 'errors'
+  
+  # Default class assigned to input with errors (<div class="input errors">...</div>).
+  mattr_accessor :input_error_class
+  @@input_error_class = false
+  
+  # Default class assigned to input with errors (<div class="association errors">...</div>).
+  mattr_accessor :association_error_class
+  @@association_error_class = false
   
   # Default class assigned to error (<div class="error">...</div>).
   mattr_accessor :error_class
@@ -125,8 +133,8 @@ module Formula
       components << @template.capture(&block)
       
       options[:container] ||= {}
-      options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.block_class
-      options[:container][:class] << ::Formula.block_error_class if options[:error]
+      options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.block_class << method
+      options[:container][:class] << ::Formula.block_error_class if ::Formula.block_error_class.present? and error?(method)
       
       components << @template.content_tag(::Formula.hint_tag , options[:hint ], :class => ::Formula.hint_class ) if options[:hint ]
       components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
@@ -156,17 +164,17 @@ module Formula
     #
     # Equivalent:
     #
-    #   <div class="block">
+    #   <div class="block name">
     #     <%= f.label(:name)
     #     <div class="input string"><%= f.text_field(:name)</div>
     #      <div class="error">...</div>
     #   </div>
-    #   <div class="block">
+    #   <div class="block email">
     #     <%= f.label(:email)
     #     <div class="input string"><%= f.email_field(:email)</div>
     #      <div class="error">...</div>
     #   </div>
-    #   <div class="block half">
+    #   <div class="block half password_a">
     #     <div class="input">
     #       <%= f.label(:password_a, "Password")
     #       <%= f.password_field(:password_a)
@@ -174,7 +182,7 @@ module Formula
     #       <div class="error">...</div>
     #     </div>
     #   </div>
-    #   <div class="block half">
+    #   <div class="block half password_b">
     #     <div class="input">
     #       <%= f.label(:password_b, "Password")
     #       <%= f.password_field(:password_b)
@@ -189,8 +197,11 @@ module Formula
       
       return hidden_field method, options[:input] if options[:as] == :hidden
       
+      klass = [::Formula.input_class, options[:as]]
+      klass << ::Formula.input_error_class if ::Formula.input_error_class.present? and error?(method)
+      
       self.block(method, options) do
-        @template.content_tag(::Formula.input_tag, :class => [::Formula.input_class, options[:as]]) do
+        @template.content_tag(::Formula.input_tag, :class => klass) do
           case options[:as]
             when :text     then text_area       method, options[:input]            
             when :file     then file_field      method, options[:input]
@@ -230,7 +241,7 @@ module Formula
     # Equivalent:
     #
     #   <div>
-    #     <div class="association">
+    #     <div class="association category">
     #       <%= f.label(:category)
     #       <div class="association">
     #         <%= f.collection_select(:category, Category.all, :id, :name) %>
@@ -240,7 +251,7 @@ module Formula
     #     </div>
     #   </div>
     #   <div>
-    #     <div class="association">
+    #     <div class="association category">
     #       <%= f.label(:category)
     #       <div class="association">
     #         <%= f.collection_select(:category, Category.all, :id, :name, { :prompt => "Category") } %>
@@ -249,7 +260,7 @@ module Formula
     #     </div>
     #   </div>
     #   <div>
-    #     <div class="association">
+    #     <div class="association category">
     #       <%= f.label(:category)
     #       <div class="association">
     #         <%= f.collection_select(:category, Category.all, :id, :name, {}, { :class => "category" } %>
@@ -263,8 +274,11 @@ module Formula
       options[:as] ||= :select
       options[:association] ||= {}
       
+      klass = [::Formula.association_class, options[:as]]
+      klass << ::Formula.association_error_class if ::Formula.association_error_class.present? and error?(method)
+      
       self.block(method, options) do
-        @template.content_tag(::Formula.association_tag, :class => [::Formula.association_class, options[:as]]) do
+        @template.content_tag(::Formula.association_tag, :class => klass) do
           case options[:as]
             when :select then collection_select :"#{method}_id", collection, value, text, 
               options[:association], options[:association].delete(:html) || {}
@@ -363,6 +377,14 @@ module Formula
     end
     
     
+    # Identify if error message exists for a given method by checking for the presence of the object
+    # followed by the presence of errors.
+    
+    def error?(method)
+      @object.present? and @object.errors[method].present?
+    end
+    
+    
     # Create an array from a string, a symbol, or an undefined value. The default is to return 
     # the value and assume it has already is valid.
     
@@ -404,17 +426,11 @@ module Formula
     end
     
     alias :fieldsula_for :formula_fields_for
-    
-  
+
+
   end
   
   module FormulaFormHelper
-    @@default_field_error_proc = nil
-    
-    FIELD_ERROR_PROC = proc do |html_tag, instance_tag|
-      html_tag
-    end
-    
     @@builder = ::Formula::FormulaFormBuilder
     
     
@@ -438,10 +454,7 @@ module Formula
     def formula_form_for(record_or_name_or_array, *args, &proc)
        options = args.extract_options!
        options[:builder] ||= @@builder
-       
-       with_formula_field_error_proc do
-         form_for(record_or_name_or_array, *(args << options), &proc)
-       end
+       form_for(record_or_name_or_array, *(args << options), &proc)
     end
     
     alias :formula_for :formula_form_for
@@ -468,23 +481,10 @@ module Formula
     def formula_fields_for(record_or_name_or_array, *args, &block)
       options = args.extract_options!
       options[:builder] ||= @@builder
-      
-      with_formula_field_error_proc do 
-        fields_for(record_or_name_or_array, *(args << options), &block)
-      end
+      fields_for(record_or_name_or_array, *(args << options), &block)
     end
     
     alias :fieldsula_for :formula_fields_for 
-    
-    private
-
-    def with_formula_field_error_proc
-      @@default_field_error_proc = ::ActionView::Base.field_error_proc
-      ::ActionView::Base.field_error_proc = FIELD_ERROR_PROC
-      result = yield
-      ::ActionView::Base.field_error_proc = @@default_field_error_proc
-      result
-    end
     
   end
   

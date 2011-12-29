@@ -1,6 +1,6 @@
 class Contact < ActiveRecord::Base
   
-  attr_accessor :hidden_field
+  attr_accessor :secret
   
   belongs_to :group
   
