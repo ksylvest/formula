@@ -2,8 +2,8 @@ class SessionsController < ApplicationController
 
   respond_to :html, :js
 
-  before_filter :authenticate!, only: [:destroy]
-  before_filter :deauthenticate!, only: [:new, :create]
+  before_filter :authenticate!, :only => [:destroy]
+  before_filter :deauthenticate!, :only => [:new, :create]
 
   # GET /session/new
   def new
