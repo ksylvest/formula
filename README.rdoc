@@ -1,6 +1,6 @@
 = Formula
 
-Formula is a Rails form helper that generates awesome markup. The project aims to let users create semantically beautiful forms without introducing too much syntax. The goal is to make integrating advanced layout systems (such as grid systems) as simple as possible.
+Formula is a Rails form helper that generates awesome markup. The project lets users create semantically beautiful forms without introducing too much syntax.
 
 == Requirements
 
@@ -17,7 +17,7 @@ The gem is tested with:
 == Installation
 
   gem install formula
-  
+
 == Examples
 
   <% formula_form_for @user do |f| %>
@@ -31,14 +31,14 @@ The gem is tested with:
     <%= f.input :password, label: "Password:", hint: "Must be at least six characters." %>
     <%= f.button 'Save' %>
   <% end %>
-  
+
   <% formula_form_for @company do |f|
     <%= f.input :url,   container: { class: 'grid-04' }, input: { class: 'fill' } %>
     <%= f.input :phone, container: { class: 'grid-04' }, input: { class: 'fill' } %>
     <%= f.input :email, container: { class: 'grid-04' }, input: { class: 'fill' } %>
     <%= f.button 'Save', button: { class: 'fancy' } %>
   <% end %>
-  
+
   <% formula_form_for @user do |f| %>
     <%= f.input :email, label: "Email:" %>
     <%= f.input :password, label: "Password:" %>
@@ -49,7 +49,7 @@ The gem is tested with:
     <% end %>
     <%= f.button 'Save', button: { class: 'fancy' } %>
   <% end %>
-  
+
   <% formula_form_for @user do |f| %>
     <%= f.block :favourite %>
       <% @favourites.each do |favourite| %>
