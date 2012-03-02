@@ -3,8 +3,6 @@ source "http://rubygems.org"
 gemspec
 
 gem 'rails'
-gem 'appraisal'
-gem 'sqlite3'
 
 group :assets do
   gem 'sass-rails', '3.2.4'
