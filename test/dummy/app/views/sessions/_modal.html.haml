@@ -1,7 +1,7 @@
 .modal.fade
   = formula_form_for @session, url: session_path, :html => { :class => 'form-horizontal' } do |form|
     .modal-header
-      %a{ class: 'close', :data => { :dismiss => 'modal' } } ×
+      %a{ :class => 'close', :data => { :dismiss => 'modal' } } ×
       %h2
         Session
         %small= title if title
@@ -9,4 +9,4 @@
       = render 'fields', :form => form
     .modal-footer
       = form.submit "Submit", :class => 'btn btn-primary'
-      %a{ class: 'btn', :data => { :dismiss => 'modal' } } Close
+      %a{ :class => 'btn', :data => { :dismiss => 'modal' } } Close
