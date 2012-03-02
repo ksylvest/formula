@@ -2,10 +2,10 @@
   List
   %small Contacts
 %table.table.table-striped.table-bordered
-  %colgroup{ width: '25%' }
-  %colgroup{ width: '25%' }
-  %colgroup{ width: '25%' }
-  %colgroup{ width: '25%' }
+  %colgroup{ :width => '25%' }
+  %colgroup{ :width => '25%' }
+  %colgroup{ :width => '25%' }
+  %colgroup{ :width => '25%' }
   - @contacts.each do |contact|
     %tr
       %td= contact.name
