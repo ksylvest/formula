@@ -2,8 +2,8 @@ class UsersController < ApplicationController
 
   respond_to :html, :js
 
-  before_filter :authenticate!, only: [:edit, :update]
-  before_filter :deauthenticate!, only: [:new, :create]
+  before_filter :authenticate!, :only => [:edit, :update]
+  before_filter :deauthenticate!, :only => [:new, :create]
 
   # GET /user/new
   def new
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     flash[:notice] = 'User update successful.' if @user.valid?
     flash[:error] = 'User update failed.' if @user.invalid?
 
-    respond_with(@user, :location restore(:default => root_path))
+    respond_with(@user, :location => restore(:default => root_path))
   end
 
 end
