@@ -1,0 +1,12 @@
+.modal.fade
+  = formula_form_for @user, url: user_path, :html => { :class => 'form-horizontal' } do |form|
+    .modal-header
+      %a{ class: 'close', :data => { :dismiss => 'modal' } } ×
+      %h2
+        User
+        %small= title if title
+    .modal-body
+      = render 'fields', :form => form
+    .modal-footer
+      = form.submit "Submit", :class => 'btn btn-primary'
+      %a{ class: 'btn', :data => { :dismiss => 'modal' } } Close

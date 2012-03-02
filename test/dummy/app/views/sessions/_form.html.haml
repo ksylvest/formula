@@ -1,0 +1,5 @@
+= formula_form_for @session, url: session_path, :html => { :class => 'well form-horizontal' } do |form|
+  = render 'fields', :form => form
+  .form-actions
+    = form.submit 'Submit', :class => 'btn btn-primary'
+    = link_to 'Cancel', :back, :class => 'btn'
