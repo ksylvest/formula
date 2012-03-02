@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
     flash[:error] = 'Session create failed.' if @session.invalid?
 
     authenticate(@session.user) if @session.valid?
-    respond_with(@session, location: restore(default: root_path))
+    respond_with(@session, :location => restore(:default => root_path))
   end
 
   # DELETE /session
@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
     deauthenticate()
 
     respond_to do |format|
-      format.html { redirect_to(restore(default: root_path)) }
+      format.html { redirect_to(restore(:default => root_path)) }
     end
   end
 

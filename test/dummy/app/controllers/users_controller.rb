@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     flash[:error] = 'User create failed.' if @user.invalid?
 
     authenticate(@user) if @user.valid?
-    respond_with(@user, location: root_path)
+    respond_with(@user, :location => restore(:default => root_path))
   end
 
   # PUT /user
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     flash[:notice] = 'User update successful.' if @user.valid?
     flash[:error] = 'User update failed.' if @user.invalid?
 
-    respond_with(@user, location: root_path)
+    respond_with(@user, :location restore(:default => root_path))
   end
 
 end
