@@ -26,11 +26,18 @@ class ContactsController < ApplicationController
     respond_with(@contact, :location => contacts_path)
   end
 
-  # put /contacts
+  # PUT /contacts
   def update
     @contact = Contact.find(params[:id])
     @contact.attributes = params[:contact]
     @contact.save
+    respond_with(@contact, :location => contacts_path)
+  end
+
+  # DELETE /contacts/:id
+  def destroy
+    @contact = Contact.find(params[:id])
+    @contact.delete
     respond_with(@contact, :location => contacts_path)
   end
 
