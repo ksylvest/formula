@@ -7,11 +7,11 @@ gem 'rails'
 group :assets do
   gem 'sass-rails', '3.2.5'
   gem 'coffee-rails', '3.2.2'
+  gem 'bootstrap-sass-rails', '2.2.1.0' 
 end
 
 gem 'haml-rails'
 gem 'jquery-rails'
-gem 'bootstrap-sass'
 
 gem 'attached'
 
