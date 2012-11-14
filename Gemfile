@@ -23,3 +23,6 @@ end
 gem 'bcrypt-ruby'
 
 gem 'jruby-openssl', :platform => :jruby
+gem 'activerecord-jdbcmysql-adapter', :platform => :jruby
+gem 'activerecord-jdbcpostgresql-adapter', :platform => :jruby
+gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
