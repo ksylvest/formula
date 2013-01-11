@@ -78,7 +78,7 @@ GEM
       railties (>= 3.1, < 4.1)
     hike (1.2.1)
     i18n (0.6.1)
-    identifier (1.1.4)
+    identifier (1.1.5)
     journey (1.0.4)
     jquery-rails (2.1.4)
       railties (>= 3.0, < 5.0)
@@ -146,8 +146,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-jdbcmysql-adapter
-  activerecord-jdbcpostgresql-adapter
   activerecord-jdbcsqlite3-adapter
   appraisal
   attached
