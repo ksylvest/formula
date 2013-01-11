@@ -67,6 +67,8 @@ The gem is tested with:
 == Status
 
 {<img src="https://travis-ci.org/ksylvest/formula.png" />}[https://travis-ci.org/ksylvest/formula]
+{<img src="https://codeclimate.com/badge.png"}[https://codeclimate.com/github/ksylvest/formula]
+
 
 == Copyright
 
