@@ -15,10 +15,6 @@ gem 'jquery-rails'
 
 gem 'attached'
 
-group :test do
-  gem 'turn', :require => false
-end
-
 gem 'bcrypt-ruby'
 
 gem 'jruby-openssl', :platform => :jruby
