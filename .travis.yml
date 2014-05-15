@@ -7,6 +7,5 @@ gemfile:
   - gemfiles/4.0.5.gemfile
   - gemfiles/4.1.1.gemfile
 script:
-  - "sudo apt-get install -qq lame"
   - "sh -c 'cd test/dummy && bundle exec rake db:create db:migrate db:test:prepare'"
   - "bundle exec rake test"
