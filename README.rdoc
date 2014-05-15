@@ -6,15 +6,12 @@ Formula is a Rails form helper that generates awesome markup. The project lets u
 
 The gem is tested with:
 
-* Ruby on Rails 3.1.11
-* Ruby on Rails 3.2.13
-* Ruby (MRI) 2.0.0
-* Ruby (MRI) 1.9.3
-* Ruby (MRI) 1.9.2
-* Ruby (MRI) 1.8.7
-* Ruby (REE) 1.8.7
-* JRuby 1.7.2
-* Rubinius 1.2.4
+* Ruby on Rails 4.1.1
+* Ruby on Rails 4.0.5
+* Ruby 2.1.2
+* Ruby 2.0.0
+* Ruby 1.9.3
+* JRuby
 
 == Installation
 
@@ -25,7 +22,7 @@ The gem is tested with:
   <% formula_form_for @user do |f| %>
     <%= f.input :email %>
     <%= f.input :password %>
-    <%= f.button 'Save' } %>
+    <%= f.button 'Save' %>
   <% end %>
 
   <% formula_form_for @user do |f| %>
@@ -35,9 +32,9 @@ The gem is tested with:
   <% end %>
 
   <% formula_form_for @company do |f|
-    <%= f.input :url,   container: { class: 'grid-04' }, input: { class: 'fill' } %>
-    <%= f.input :phone, container: { class: 'grid-04' }, input: { class: 'fill' } %>
-    <%= f.input :email, container: { class: 'grid-04' }, input: { class: 'fill' } %>
+    <%= f.input :url,   container: { class: 'third' }, input: { class: 'fill' } %>
+    <%= f.input :phone, container: { class: 'third' }, input: { class: 'fill' } %>
+    <%= f.input :email, container: { class: 'third' }, input: { class: 'fill' } %>
     <%= f.button 'Save', button: { class: 'fancy' } %>
   <% end %>
 
