@@ -3,6 +3,16 @@ module Formula
 
   require 'formula/railtie' if defined?(Rails)
 
+  mattr_accessor :box_options
+  mattr_accessor :area_options
+  mattr_accessor :file_options
+  mattr_accessor :field_options
+  mattr_accessor :select_options
+  @@box_options = {}
+  @@area_options = {}
+  @@file_options = {}
+  @@field_options = {}
+  @@select_options = {}
 
   # Default class assigned to block (<div class="block">...</div>).
   mattr_accessor :block_class
@@ -203,20 +213,20 @@ module Formula
       self.block(method, options) do
         @template.content_tag(::Formula.input_tag, :class => klass) do
           case options[:as]
-          when :text     then text_area       method, options[:input]
-          when :file     then file_field      method, options[:input]
-          when :string   then text_field      method, options[:input]
-          when :password then password_field  method, options[:input]
-          when :boolean  then check_box       method, options[:input]
-          when :url      then url_field       method, options[:input]
-          when :email    then email_field     method, options[:input]
-          when :phone    then phone_field     method, options[:input]
-          when :number   then number_field    method, options[:input]
-          when :country  then country_select  method, options[:input]
-          when :date     then date_select     method, options[:input], options[:input].delete(:html) || {}
-          when :time     then time_select     method, options[:input], options[:input].delete(:html) || {}
-          when :datetime then datetime_select method, options[:input], options[:input].delete(:html) || {}
-          when :select   then select          method, options[:choices], options[:input], options[:input].delete(:html) || {}
+          when :text     then text_area       method, ::Formula.area_options.merge(options[:input] || {})
+          when :file     then file_field      method, ::Formula.file_options.merge(options[:input] || {})
+          when :string   then text_field      method, ::Formula.field_options.merge(options[:input] || {})
+          when :password then password_field  method, ::Formula.field_options.merge(options[:input] || {})
+          when :url      then url_field       method, ::Formula.field_options.merge(options[:input] || {})
+          when :email    then email_field     method, ::Formula.field_options.merge(options[:input] || {})
+          when :phone    then phone_field     method, ::Formula.field_options.merge(options[:input] || {})
+          when :number   then number_field    method, ::Formula.field_options.merge(options[:input] || {})
+          when :boolean  then check_box       method, ::Formula.box_options.merge(options[:input] || {})
+          when :country  then country_select  method, ::Formula.select_options.merge(options[:input] || {})
+          when :date     then date_select     method, ::Formula.select_options.merge(options[:input] || {}), options[:input].delete(:html) || {}
+          when :time     then time_select     method, ::Formula.select_options.merge(options[:input] || {}), options[:input].delete(:html) || {}
+          when :datetime then datetime_select method, ::Formula.select_options.merge(options[:input] || {}), options[:input].delete(:html) || {}
+          when :select   then select          method, options[:choices], ::Formula.select_options.merge(options[:input] || {}), options[:input].delete(:html) || {}
           end
         end
       end

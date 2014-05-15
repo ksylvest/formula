@@ -2,5 +2,5 @@
   <%- attributes.each do |attribute -%>
   = form.<%= attribute.reference? ? :association : :input %> :<%= attribute.name %>
   <%- end -%>
-  
+
   = form.button :submit

@@ -1,4 +1,4 @@
-= formula_form_for @user, url: user_path, :html => { :class => 'well form-horizontal' } do |form|
+= formula_form_for @user, url: user_path, :html => { :role => 'form' } do |form|
   = render 'fields', :form => form
   .form-actions
     = form.submit 'Submit', :class => 'btn btn-primary'

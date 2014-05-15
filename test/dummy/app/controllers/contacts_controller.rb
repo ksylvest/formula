@@ -22,14 +22,14 @@ class ContactsController < ApplicationController
 
   # POST /contacts
   def create
-    @contact = Contact.create(params[:contact])
+    @contact = Contact.create(attributes)
     respond_with(@contact, :location => contacts_path)
   end
 
   # PUT /contacts
   def update
     @contact = Contact.find(params[:id])
-    @contact.attributes = params[:contact]
+    @contact.attributes = attributes
     @contact.save
     respond_with(@contact, :location => contacts_path)
   end
@@ -39,6 +39,12 @@ class ContactsController < ApplicationController
     @contact = Contact.find(params[:id])
     @contact.delete
     respond_with(@contact, :location => contacts_path)
+  end
+
+private
+
+  def attributes
+    params.require(:contact).permit(:name, :details, :email, :phone, :url, :avatar, :secret, :group_id)
   end
 
 end

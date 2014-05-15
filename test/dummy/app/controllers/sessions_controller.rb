@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 
   # POST /session
   def create
-    @session = Session.new(params[:session])
+    @session = Session.new(attributes)
 
     flash[:notice] = 'Session create successful.' if @session.valid?
     flash[:error] = 'Session create failed.' if @session.invalid?
@@ -32,6 +32,12 @@ class SessionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(restore(:default => root_path)) }
     end
+  end
+
+private
+
+  def attributes
+    params.require(:session).permit(:email, :password)
   end
 
 end

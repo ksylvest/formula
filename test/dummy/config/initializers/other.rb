@@ -1,2 +1,7 @@
-Dummy::Application.config.session_store :cookie_store, :key => '_dummy_session'
-Dummy::Application.config.secret_token = 'fa14f99ebb5c5acadfb9c8fc423ff02fe8ed1b331916c29616471f5acfcb50c1227a1689ca390e03c77aa55b1826fd5b86c97773966a8925df32c6358db45a18'
+Rails.application.config.filter_parameters += [:password]
+Rails.application.config.session_store :cookie_store, :key => '_dummy_session'
+Rails.application.config.action_dispatch.cookies_serializer = :json
+
+ActiveSupport.on_load(:action_controller) do
+  wrap_parameters :format => [:json] if respond_to?(:wrap_parameters)
+end

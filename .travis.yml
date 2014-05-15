@@ -1,11 +1,12 @@
 rvm:
-  - 1.8.7
-  - 1.9.2
-  - 1.9.3
+  - 2.1.2
   - 2.0.0
+  - 1.9.3
   - jruby
-  - ree
-  - rbx
-script: 
-  - "sh -c 'cd test/dummy && bundle exec rake db:drop db:create db:migrate db:test:prepare'"
+gemfile:
+  - gemfiles/4.0.5.gemfile
+  - gemfiles/4.1.1.gemfile
+script:
+  - "sudo apt-get install -qq lame"
+  - "sh -c 'cd test/dummy && bundle exec rake db:create db:migrate db:test:prepare'"
   - "bundle exec rake test"

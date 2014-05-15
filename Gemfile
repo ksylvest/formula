@@ -1,21 +1,19 @@
-source "http://rubygems.org"
+source 'https://rubygems.org'
 
 gemspec
 
 gem 'rails'
 
-group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
-  gem 'bootstrap-sass-rails'
-end
-
 gem 'haml-rails'
 gem 'jquery-rails'
 
-gem 'attached'
+gem 'sass-rails'
+gem 'coffee-rails'
 
-gem 'bcrypt-ruby'
+gem 'bootstrap-sass'
+
+gem 'attached'
+gem 'bcrypt'
 
 gem 'jruby-openssl', :platform => :jruby
 gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
