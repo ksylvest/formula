@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
   s.description = "Formula is a Rails form generator that generates simple clean markup. The project aims to let users create semantically beautiful forms without introducing too much syntax. The goal is to make integrating advanced layout systems as simple as possible."
 
   s.files       = Dir["{bin,lib}/**/*"] + %w(LICENSE Rakefile README.rdoc)
-  s.test_files  = Dir["test/**/*"]
 
   s.add_dependency "rails", "> 3.0.0"
   s.add_development_dependency "appraisal"
