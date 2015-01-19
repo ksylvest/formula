@@ -15,5 +15,4 @@ Gem::Specification.new do |s|
   s.files       = Dir["{bin,lib}/**/*"] + %w(LICENSE Rakefile README.rdoc)
 
   s.add_dependency "rails", "> 3.0.0"
-  s.add_development_dependency "appraisal"
 end
