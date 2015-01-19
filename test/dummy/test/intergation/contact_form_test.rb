@@ -16,7 +16,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       end
       assert_select("label", "Details")
       assert_select(".hint", "a detailed description")
-      assert_select(".error", "can&#39;t be blank")
+      assert_select(".error", "can't be blank")
     end
 
     assert_select(".block.name") do
@@ -25,7 +25,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       end
       assert_select("label", "Name")
       assert_select(".hint", "first and last name")
-      assert_select(".error", "can&#39;t be blank")
+      assert_select(".error", "can't be blank")
     end
 
     assert_select(".block.email") do
@@ -34,7 +34,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       end
       assert_select("label", "Email")
       assert_select(".hint", "sample@example.com")
-      assert_select(".error", "can&#39;t be blank and is not valid")
+      assert_select(".error", "can't be blank and is not valid")
     end
 
     assert_select(".block.phone") do
@@ -43,7 +43,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
        end
        assert_select("label", "Phone")
        assert_select(".hint", "+01 (555) 555-5555")
-       assert_select(".error", "can&#39;t be blank and is not valid")
+       assert_select(".error", "can't be blank and is not valid")
      end
 
     assert_select(".block.url") do
@@ -52,7 +52,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       end
       assert_select("label", "Website")
       assert_select(".hint", "http://example.com/")
-      assert_select(".error", "can&#39;t be blank")
+      assert_select(".error", "can't be blank")
     end
 
     assert_select(".block.avatar") do
@@ -69,7 +69,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
           assert_select("option", "Developer")
         end
       end
-      assert_select(".error", "can&#39;t be blank")
+      assert_select(".error", "can't be blank")
       assert_select("label", "Group")
     end
 

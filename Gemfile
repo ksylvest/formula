@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'rails'
+gem 'responders'
 
 gem 'haml-rails'
 gem 'jquery-rails'

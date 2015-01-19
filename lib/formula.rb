@@ -317,8 +317,10 @@ module Formula
     # * nil       - for unkown columns
 
     def type(method)
-      column = @object.column_for_attribute(method) if @object.respond_to?(:column_for_attribute)
-      return column.type if column
+      if @object.respond_to?(:has_attribute?) && @object.has_attribute?(method)
+        column = @object.column_for_attribute(method) if @object.respond_to?(:column_for_attribute)
+        return column.type if column
+      end
     end
 
 
