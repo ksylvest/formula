@@ -10,7 +10,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
 
     assert_response :success
 
-    assert_select(".block.details") do
+    assert_select(".details") do
       assert_select(".input.text") do
         assert_select("textarea")
       end
@@ -19,7 +19,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank")
     end
 
-    assert_select(".block.name") do
+    assert_select(".name") do
       assert_select(".input.string") do
         assert_select("input[type=text]")
       end
@@ -28,7 +28,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank")
     end
 
-    assert_select(".block.email") do
+    assert_select(".email") do
       assert_select(".input.email") do
         assert_select("input[type=email]")
       end
@@ -37,7 +37,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank and is not valid")
     end
 
-    assert_select(".block.phone") do
+    assert_select(".phone") do
        assert_select(".input.phone") do
          assert_select("input[type=tel]")
        end
@@ -46,7 +46,7 @@ class ContactFormTest < ActionDispatch::IntegrationTest
        assert_select(".error", "can't be blank and is not valid")
      end
 
-    assert_select(".block.url") do
+    assert_select(".url") do
       assert_select(".input.url") do
         assert_select("input[type=url]")
       end
@@ -55,14 +55,14 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select(".error", "can't be blank")
     end
 
-    assert_select(".block.avatar") do
+    assert_select(".avatar") do
       assert_select(".input.file") do
         assert_select("input[type=file]")
       end
       assert_select("label", "Avatar")
     end
 
-    assert_select(".block.group") do
+    assert_select(".group") do
       assert_select(".association.select") do
         assert_select("select") do
           assert_select("option", "Designer")
@@ -73,11 +73,8 @@ class ContactFormTest < ActionDispatch::IntegrationTest
       assert_select("label", "Group")
     end
 
-    assert_select(".block.errors.name", true, 'Name block should have "errors" class')
-    assert_select(".block.errors.details", true, 'Details block should have "errors" class')
-
-    assert_select('#contact_secret', true, 'There should be hidden field')
-    assert_select('.block > #contact_secret', false, 'The hidden field should not be wrapped with a block')
+    assert_select(".errors.name", true, 'Name block should have "errors" class')
+    assert_select(".errors.details", true, 'Details block should have "errors" class')
 
   end
 
