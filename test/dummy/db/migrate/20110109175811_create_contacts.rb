@@ -1,19 +1,16 @@
-class CreateContacts < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateContacts < ActiveRecord::Migration[7.2]
   def change
     create_table :contacts do |t|
       t.references :group
 
-      t.string :name
-      t.string :slug
-      t.text :details
+      t.string :name, null: false
+      t.text :details, null: false
 
-      t.string :phone
-      t.string :email
-      t.string :url
-
-      t.string :avatar_identifier
-      t.string :avatar_extension
-      t.integer :avatar_size
+      t.string :phone, null: false
+      t.string :email, null: false
+      t.string :url, null: false
 
       t.timestamps
     end

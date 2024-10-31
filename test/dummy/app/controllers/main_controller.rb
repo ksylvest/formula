@@ -1,10 +1,8 @@
-class MainController < ApplicationController
+# frozen_string_literal: true
 
+class MainController < ApplicationController
   # GET /
   def index
-    respond_to do |format|
-      format.html
-    end
+    render
   end
-
 end

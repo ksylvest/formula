@@ -1,15 +1,12 @@
+# frozen_string_literal: true
+
 class SessionsController < ApplicationController
-
-  respond_to :html, :js
-
-  before_filter :authenticate!, :only => [:destroy]
-  before_filter :deauthenticate!, :only => [:new, :create]
+  before_action :authenticate!, only: %i[destroy]
+  before_action :deauthenticate!, only: %i[new create]
 
   # GET /session/new
   def new
     @session = Session.new
-
-    respond_with(@session)
   end
 
   # POST /session
@@ -20,24 +17,27 @@ class SessionsController < ApplicationController
     flash[:error] = 'Session create failed.' if @session.invalid?
 
     authenticate(@session.user) if @session.valid?
-    respond_with(@session, :location => restore(:default => root_path))
+
+    if @session.valid?
+      authenticate(@session.user)
+      redirect_to(restore(default: root_path))
+    else
+      render :new, status: 422
+    end
   end
 
   # DELETE /session
   def destroy
     flash[:notice] = 'Session destroyed.'
 
-    deauthenticate()
+    deauthenticate
 
-    respond_to do |format|
-      format.html { redirect_to(restore(:default => root_path)) }
-    end
+    redirect_to(restore(default: root_path))
   end
 
-private
+  private
 
   def attributes
     params.require(:session).permit(:email, :password)
   end
-
 end

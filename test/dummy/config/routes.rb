@@ -1,9 +1,9 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
-  root :to => "main#index"
+Rails.application.routes.draw do
+  root to: 'main#index'
 
   resource :user
   resource :session
   resources :contacts
-
 end
