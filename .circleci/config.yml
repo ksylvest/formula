@@ -15,9 +15,21 @@ jobs:
       - checkout
       - ruby/install-deps
       - run: bundle exec rake test
+  release:
+    executor: default
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run: bundle exec rake release
 
 workflows:
   version: 2.1
   build:
     jobs:
       - test
+      - release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
