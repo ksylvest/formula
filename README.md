@@ -66,12 +66,6 @@ gem install formula
 <% end %>
 ```
 
-## Status
-
-[![Dependency Status](http://img.shields.io/gemnasium/ksylvest/formula.svg)](https://gemnasium.com/ksylvest/formula)
-[![Build Status](http://img.shields.io/travis/ksylvest/formula.svg)](https://travis-ci.org/ksylvest/formula)
-[![Code Climate](http://img.shields.io/codeclimate/github/ksylvest/formula.svg)](https://codeclimate.com/github/ksylvest/formula)
-
 ## Copyright
 
 Copyright (c) 2010 - 2024 Kevin Sylvestre. See LICENSE for details.
