@@ -1,9 +1,0 @@
-rvm:
-  - 2.2.0
-  - 2.1.5
-  - 2.0.0
-  - 1.9.3
-  - jruby
-script:
-  - "sh -c 'cd test/dummy && bundle exec rake db:create db:migrate db:test:prepare'"
-  - "bundle exec rake test"
