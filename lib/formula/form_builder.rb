@@ -39,7 +39,7 @@ module Formula
     #
     # Usage:
     #
-    #   f.block(:name, :label => "Name:", :hint => "Please use your full name.", :container => { :class => 'fill' }) do
+    #   f.block(:name, label: "Name:", hint: "Please use your full name.", container: { class: 'fill' }) do
     #     ...
     #   end
     #
@@ -51,14 +51,14 @@ module Formula
     #     <div class="hint">Please use your full name.</div>
     #     <div class="error">...</div>
     #   </div>
-    def block(method = nil, options = {}, &block)
+    def block(method = nil, options = {}, &)
       options[:error] ||= error(method) if method
 
       components = ''.html_safe
 
       components << label(method, options[:label], config.label_options) if method
 
-      components << @template.capture(&block)
+      components << @template.capture(&)
 
       options[:container] ||= {}
       options[:container][:class] = arrayorize(options[:container][:class]) << config.block_class << method
@@ -85,15 +85,15 @@ module Formula
     # * :as         - override the default type used (:url, :email, :phone, :password, :number, :text)
     # * :label      - override the default label used ('Name:', 'URL:', etc.)
     # * :error      - override the default error used ('invalid', 'incorrect', etc.)
-    # * :input      - add custom options to the input ({ :class => 'goregous' }, etc.)
-    # * :container  - add custom options to the container ({ :class => 'gorgeous' }, etc.)
+    # * :input      - add custom options to the input ({ class: 'goregous' }, etc.)
+    # * :container  - add custom options to the container ({ class: 'gorgeous' }, etc.)
     #
     # Usage:
     #
     #   f.input(:name)
     #   f.input(:email)
-    #   f.input(:password_a, :label => "Password", :hint => "It's a secret!", :container => { :class => "half" })
-    #   f.input(:password_b, :label => "Password", :hint => "It's a secret!", :container => { :class => "half" })
+    #   f.input(:password_a, label: "Password", hint: "It's a secret!", container: { class: "half" })
+    #   f.input(:password_b, label: "Password", hint: "It's a secret!", container: { class: "half" })
     #
     # Equivalent:
     #
@@ -164,14 +164,14 @@ module Formula
     #
     # * :label       - override the default label used ('Name:', 'URL:', etc.)
     # * :error       - override the default error used ('invalid', 'incorrect', etc.)
-    # * :association - add custom options to the input ({ :class => 'goregous' }, etc.)
-    # * :container   - add custom options to the container ({ :class => 'gorgeous' }, etc.)
+    # * :association - add custom options to the input ({ class: 'goregous' }, etc.)
+    # * :container   - add custom options to the container ({ class: 'gorgeous' }, etc.)
     #
     # Usage:
     #
-    #   f.association(:category, Category.all, :id, :name, :hint => "What do you do?")
-    #   f.association(:category, Category.all, :id, :name, :association => { :prompt => "Category?" })
-    #   f.association(:category, Category.all, :id, :name, :association => { :html => { :class => "category" } })
+    #   f.association(:category, Category.all, :id, :name, hint: "What do you do?")
+    #   f.association(:category, Category.all, :id, :name, association: { prompt: "Category?" })
+    #   f.association(:category, Category.all, :id, :name, association: { html: { class: "category" } })
     #
     # Equivalent:
     #
@@ -189,7 +189,7 @@ module Formula
     #     <div class="association category">
     #       <%= f.label(:category)
     #       <div class="association">
-    #         <%= f.collection_select(:category, Category.all, :id, :name, { :prompt => "Category") } %>
+    #         <%= f.collection_select(:category, Category.all, :id, :name, { prompt: "Category") } %>
     #       </div>
     #       <div class="error">...</div>
     #     </div>
@@ -198,7 +198,7 @@ module Formula
     #     <div class="association category">
     #       <%= f.label(:category)
     #       <div class="association">
-    #         <%= f.collection_select(:category, Category.all, :id, :name, {}, { :class => "category" } %>
+    #         <%= f.collection_select(:category, Category.all, :id, :name, {}, { class: "category" } %>
     #       </div>
     #       <div class="error">...</div>
     #     </div>
@@ -340,10 +340,10 @@ module Formula
     #     <%= company_f.input :url %>
     #     <%= company_f.input :phone %>
     #   <% end %>
-    def formula_fields_for(record_or_name_or_array, *args, &block)
+    def formula_fields_for(record_or_name_or_array, *args, &)
       options = args.extract_options!
       options[:builder] ||= self.class
-      fields_for(record_or_name_or_array, *(args << options), &block)
+      fields_for(record_or_name_or_array, *(args << options), &)
     end
 
     alias fieldsula_for formula_fields_for

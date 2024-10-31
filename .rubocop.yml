@@ -1,5 +1,7 @@
 AllCops:
   NewCops: enable
+  Exclude:
+    - test/dummy/db/schema.rb
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
