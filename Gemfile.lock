@@ -223,6 +223,7 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    yard (0.9.37)
     zeitwerk (2.7.1)
 
 PLATFORMS
@@ -247,6 +248,7 @@ DEPENDENCIES
   puma
   rubocop
   sqlite3
+  yard
 
 BUNDLED WITH
    2.5.22
