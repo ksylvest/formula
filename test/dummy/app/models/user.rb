@@ -1,19 +1,16 @@
-class User < ActiveRecord::Base
+# frozen_string_literal: true
 
+class User < ApplicationRecord
   module Formats
-    EMAIL = /\A([^\s]+)@([^\s]+)\Z/i
+    EMAIL = /\A([^\s]+)@([^\s]+)\Z/i.freeze
   end
 
   has_secure_password
 
-  validates_presence_of :name
-  validates_presence_of :email
-  validates_presence_of :password
-
-  validates_length_of :password, :in => 4..64, :unless => "password.blank?"
-
-  validates_format_of :email, :with => Formats::EMAIL, :message => "should look like an email", :unless => "email.blank?"
-
-  validates_uniqueness_of :email
-
+  validates :name, presence: true
+  validates :email, presence: true
+  validates :email, format: { with: Formats::EMAIL, message: 'should look like an email' }, unless: -> { email.blank? }
+  validates :email, uniqueness: true, unless: -> { email.blank? }
+  validates :password, { presence: true }
+  validates :password, length: { in: 4..64 }, unless: -> { password.blank? }
 end

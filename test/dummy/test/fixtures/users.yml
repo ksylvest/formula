@@ -1,4 +1,0 @@
-kevin:
-  name: Kevin Sylvestre
-  email: kevin@vidfolia.com
-  password_digest: <%= BCrypt::Password.create "password" %>

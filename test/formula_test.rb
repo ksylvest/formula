@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class FormulaTest < ActiveSupport::TestCase
-  test "formula is a module" do
-    assert_kind_of Module, Formula
+  test 'it has a version number' do
+    assert Formula::VERSION
   end
 end

@@ -1,19 +1,17 @@
-class Contact < ActiveRecord::Base
+# frozen_string_literal: true
 
+class Contact < ActiveRecord::Base
   attr_accessor :secret
 
   belongs_to :group
 
-  validates_presence_of :name
-  validates_presence_of :details
-  validates_presence_of :email
-  validates_presence_of :phone
-  validates_presence_of :url
-  validates_presence_of :group
+  validates :name, presence: true
+  validates :details, presence: true
+  validates :url, presence: true
+  validates :email, presence: true
+  validates :phone, presence: true
+  validates :email, format: { with: /\A([^\s]+)@([^\s]+)\Z/i, message: 'is not valid' }
+  validates :phone, format: { with: /\A[0-9\s\(\)\+\-]+\Z/i, message: 'is not valid' }
 
-  validates_format_of :email, :with => /\A([^\s]+)@([^\s]+)\Z/i, :message => "is not valid"
-  validates_format_of :phone, :with => /\A[0-9\s\(\)\+\-]+\Z/i, :message => "is not valid"
-
-  has_attached :avatar
-
+  has_one_attached :avatar
 end

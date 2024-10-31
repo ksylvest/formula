@@ -4,9 +4,12 @@
   <%= form.input :email, hint: "sample@example.com" %>
   <%= form.input :phone, hint: "+01 (555) 555-5555" %>
   <%= form.input :url, label: "Website", hint: "http://example.com/" %>
-  <%= form.input :avatar %>
+  <%= form.input :avatar, as: :file %>
+
   <%= form.association :group, Group.all, :id, :name, association: { html: { class: 'group' } } %>
+
   <%= form.input :secret, as: :hidden %>
+
   <div class="form-actions">
     <%= form.submit 'Submit', class: 'btn btn-primary' %>
     <%= link_to 'Cancel', :back, class: 'btn' %>

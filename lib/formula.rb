@@ -1,18 +1,21 @@
+# frozen_string_literal: true
+
+require 'formula/railtie' if defined?(Rails)
+
 module Formula
-
-
-  require 'formula/railtie' if defined?(Rails)
-
   mattr_accessor :box_options
   mattr_accessor :area_options
   mattr_accessor :file_options
   mattr_accessor :field_options
   mattr_accessor :select_options
+  mattr_accessor :label_options
+
   @@box_options = {}
   @@area_options = {}
   @@file_options = {}
   @@field_options = {}
   @@select_options = {}
+  @@label_options = {}
 
   # Default class assigned to block (<div class="block">...</div>).
   mattr_accessor :block_class
@@ -66,18 +69,11 @@ module Formula
   mattr_accessor :hint_tag
   @@hint_tag = :div
 
-  # Method for file.
-  mattr_accessor :file
-  @@file = [:file?]
-
   # Default as.
   mattr_accessor :default_as
   @@default_as = :string
 
-
   class FormulaFormBuilder < ActionView::Helpers::FormBuilder
-
-
     # Generate a form button.
     #
     # Options:
@@ -101,12 +97,10 @@ module Formula
       options[:container] ||= {}
       options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.block_class
 
-
       @template.content_tag(::Formula.block_tag, options[:container]) do
         submit value, options[:button]
       end
     end
-
 
     # Basic container generator for use with blocks.
     #
@@ -134,26 +128,31 @@ module Formula
     def block(method = nil, options = {}, &block)
       options[:error] ||= error(method) if method
 
-      components = "".html_safe
+      components = ''.html_safe
 
-      if method
-        components << self.label(method, options[:label]) if options[:label] or options[:label].nil? and method
-      end
+      components << label(method, options[:label], ::Formula.label_options) if method
 
       components << @template.capture(&block)
 
       options[:container] ||= {}
       options[:container][:class] = arrayorize(options[:container][:class]) << ::Formula.block_class << method
-      options[:container][:class] << ::Formula.block_error_class if ::Formula.block_error_class.present? and error?(method)
+      if ::Formula.block_error_class.present? and error?(method)
+        options[:container][:class] << ::Formula.block_error_class
+      end
 
-      components << @template.content_tag(::Formula.hint_tag , options[:hint ], :class => ::Formula.hint_class ) if options[:hint ]
-      components << @template.content_tag(::Formula.error_tag, options[:error], :class => ::Formula.error_class) if options[:error]
+      if options[:hint]
+        components << @template.content_tag(::Formula.hint_tag, options[:hint],
+                                            class: ::Formula.hint_class)
+      end
+      if options[:error]
+        components << @template.content_tag(::Formula.error_tag, options[:error],
+                                            class: ::Formula.error_class)
+      end
 
       @template.content_tag(::Formula.block_tag, options[:container]) do
         components
       end
     end
-
 
     # Generate a suitable form input for a given method by performing introspection on the type.
     #
@@ -210,8 +209,8 @@ module Formula
       klass = [::Formula.input_class, options[:as]]
       klass << ::Formula.input_error_class if ::Formula.input_error_class.present? and error?(method)
 
-      self.block(method, options) do
-        @template.content_tag(::Formula.input_tag, :class => klass) do
+      block(method, options) do
+        @template.content_tag(::Formula.input_tag, class: klass) do
           case options[:as]
           when :text     then text_area       method, ::Formula.area_options.merge(options[:input] || {})
           when :file     then file_field      method, ::Formula.file_options.merge(options[:input] || {})
@@ -223,15 +222,18 @@ module Formula
           when :number   then number_field    method, ::Formula.field_options.merge(options[:input] || {})
           when :boolean  then check_box       method, ::Formula.box_options.merge(options[:input] || {})
           when :country  then country_select  method, ::Formula.select_options.merge(options[:input] || {})
-          when :date     then date_select     method, ::Formula.select_options.merge(options[:input] || {}), options[:input].delete(:html) || {}
-          when :time     then time_select     method, ::Formula.select_options.merge(options[:input] || {}), options[:input].delete(:html) || {}
-          when :datetime then datetime_select method, ::Formula.select_options.merge(options[:input] || {}), options[:input].delete(:html) || {}
-          when :select   then select          method, options[:choices], ::Formula.select_options.merge(options[:input] || {}), options[:input].delete(:html) || {}
+          when :date     then date_select     method, ::Formula.select_options.merge(options[:input] || {}),
+                                              options[:input].delete(:html) || {}
+          when :time     then time_select     method, ::Formula.select_options.merge(options[:input] || {}),
+                                              options[:input].delete(:html) || {}
+          when :datetime then datetime_select method, ::Formula.select_options.merge(options[:input] || {}),
+                                              options[:input].delete(:html) || {}
+          when :select   then select          method, options[:choices],
+                                              ::Formula.select_options.merge(options[:input] || {}), options[:input].delete(:html) || {}
           end
         end
       end
     end
-
 
     # Generate a suitable form association for a given method by performing introspection on the type.
     #
@@ -279,7 +281,6 @@ module Formula
     #     </div>
     #   </div>
 
-
     def association(method, collection, value, text, options = {})
       options[:as] ||= :select
       options[:association] ||= {}
@@ -287,19 +288,17 @@ module Formula
       klass = [::Formula.association_class, options[:as]]
       klass << ::Formula.association_error_class if ::Formula.association_error_class.present? and error?(method)
 
-      self.block(method, options) do
-        @template.content_tag(::Formula.association_tag, :class => klass) do
+      block(method, options) do
+        @template.content_tag(::Formula.association_tag, class: klass) do
           case options[:as]
           when :select then collection_select :"#{method}_id", collection, value, text,
-              options[:association], options[:association].delete(:html) || {}
+                                              options[:association], options[:association].delete(:html) || {}
           end
         end
       end
     end
 
-
     private
-
 
     # Introspection on the column to determine how to render a method. The method is used to
     # identify a method type (if the method corresponds to a column)
@@ -317,12 +316,11 @@ module Formula
     # * nil       - for unkown columns
 
     def type(method)
-      if @object.respond_to?(:has_attribute?) && @object.has_attribute?(method)
-        column = @object.column_for_attribute(method) if @object.respond_to?(:column_for_attribute)
-        return column.type if column
-      end
-    end
+      return unless @object.respond_to?(:has_attribute?) && @object.has_attribute?(method)
 
+      column = @object.column_for_attribute(method) if @object.respond_to?(:column_for_attribute)
+      column.type if column
+    end
 
     # Introspection on an association to determine if a method is a file. This
     # is determined by the methods ability to respond to file methods.
@@ -331,10 +329,9 @@ module Formula
       @files ||= {}
       @files[method] ||= begin
         file = @object.send(method) if @object && @object.respond_to?(method)
-        file && ::Formula.file.any? { |method| file.respond_to?(method) }
+        file.is_a?(::ActiveStorage::Attached)
       end
     end
-
 
     # Introspection on the field and method to determine how to render a method. The method is
     # used to generate form element types.
@@ -353,7 +350,6 @@ module Formula
     # * :string   - for all other cases
 
     def as(method)
-
       case "#{method}"
       when /url/      then return :url
       when /email/    then return :email
@@ -375,10 +371,8 @@ module Formula
 
       return :file if file?(method)
 
-      return ::Formula.default_as
-
+      ::Formula.default_as
     end
-
 
     # Generate error messages by combining all errors on an object into a comma seperated string
     # representation.
@@ -388,7 +382,6 @@ module Formula
       errors.to_sentence if errors.present?
     end
 
-
     # Identify if error message exists for a given method by checking for the presence of the object
     # followed by the presence of errors.
 
@@ -396,22 +389,19 @@ module Formula
       @object.present? and @object.errors[method].present?
     end
 
-
     # Create an array from a string, a symbol, or an undefined value. The default is to return
     # the value and assume it has already is valid.
 
     def arrayorize(value)
       case value
-      when nil    then return []
+      when nil    then []
       when String then value.to_s.split
       when Symbol then value.to_s.split
       else value
       end
     end
 
-
     public
-
 
     # Generates a wrapper around fields_form with :builder set to FormulaFormBuilder.
     #
@@ -437,14 +427,11 @@ module Formula
       fields_for(record_or_name_or_array, *(args << options), &block)
     end
 
-    alias :fieldsula_for :formula_fields_for
-
-
+    alias fieldsula_for formula_fields_for
   end
 
   module FormulaFormHelper
     @@builder = ::Formula::FormulaFormBuilder
-
 
     # Generates a wrapper around form_for with :builder set to FormulaFormBuilder.
     #
@@ -469,8 +456,7 @@ module Formula
       form_for(record_or_name_or_array, *(args << options), &proc)
     end
 
-    alias :formula_for :formula_form_for
-
+    alias formula_for formula_form_for
 
     # Generates a wrapper around fields_for with :builder set to FormulaFormBuilder.
     #
@@ -496,8 +482,6 @@ module Formula
       fields_for(record_or_name_or_array, *(args << options), &block)
     end
 
-    alias :fieldsula_for :formula_fields_for
-
+    alias fieldsula_for formula_fields_for
   end
-
 end
