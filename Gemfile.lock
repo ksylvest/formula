@@ -2,7 +2,8 @@ PATH
   remote: .
   specs:
     formula (1.1.1)
-      rails (> 3.0.0)
+      rails
+      zeitwerk
 
 GEM
   remote: https://rubygems.org/
