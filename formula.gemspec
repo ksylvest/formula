@@ -1,19 +1,25 @@
-# -*- encoding: utf-8 -*-
-$:.push File.join(File.dirname(__FILE__), 'lib')
-require "formula/version"
+# frozen_string_literal: true
 
-Gem::Specification.new do |s|
-  s.name        = "formula"
-  s.version     = Formula::VERSION
-  s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Kevin Sylvestre"]
-  s.email       = ["kevin@ksylvest.com"]
-  s.homepage    = "http://github.com/ksylvest/formula"
-  s.summary     = "A great way to simplify complex forms"
-  s.description = "Formula is a Rails form generator that generates simple clean markup. The project aims to let users create semantically beautiful forms without introducing too much syntax. The goal is to make integrating advanced layout systems as simple as possible."
+require_relative 'lib/formula/version'
 
-  s.files       = Dir["{bin,lib}/**/*"] + %w(LICENSE Rakefile README.rdoc)
+Gem::Specification.new do |spec|
+  spec.name        = 'formula'
+  spec.version     = Formula::VERSION
+  spec.platform    = Gem::Platform::RUBY
+  spec.authors     = ['Kevin Sylvestre']
+  spec.email       = ['kevin@ksylvest.com']
+  spec.homepage    = 'https://github.com/ksylvest/formula'
+  spec.summary     = 'A great way to simplify complex forms'
+  spec.description = 'Formula is a Rails form generator that generates simple clean markup. The project aims to let users create semantically beautiful forms without introducing too much syntax. The goal is to make integrating advanced layout systems as simple as possible.'
 
-  s.add_dependency "rails"
-  s.add_dependency "zeitwerk"
+  spec.required_ruby_version = '>= 3.2.0'
+
+  spec.metadata['homepage_uri'] = spec.homepage
+  spec.metadata['changelog_uri'] = "#{spec.homepage}/releases"
+  spec.metadata['rubygems_mfa_required'] = 'true'
+
+  spec.files = Dir.glob('{bin,lib,exe}/**/*') + %w[README.md Gemfile]
+
+  spec.add_dependency 'rails'
+  spec.add_dependency 'zeitwerk'
 end
