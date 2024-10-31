@@ -1,0 +1,22 @@
+<div class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <%= formula_form_for @user, url: user_path, html: { role: 'form' } do |form| %>
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal">&times;</a>
+          <h2>
+            User
+            <small><%= title if title %></small>
+          </h2>
+        </div>
+        <div class="modal-body">
+          <%= render 'fields', form: form %>
+        </div>
+        <div class="modal-footer">
+          <%= form.submit "Submit", class: 'btn btn-primary' %>
+          <a class="btn" data-dismiss="modal">Close</a>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

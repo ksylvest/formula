@@ -1,0 +1,7 @@
+<%= formula_form_for @user, url: user_path, html: { role: 'form' } do |form| %>
+  <%= render 'fields', form: form %>
+  <div class="form-actions">
+    <%= form.submit 'Submit', class: 'btn btn-primary' %>
+    <%= link_to 'Cancel', :back, class: 'btn' %>
+  </div>
+<% end %>
